@@ -8,3 +8,9 @@ https://sugarsyrup.tistory.com/entry/react-hook-form%EA%B3%BC-yup-%EB%9D%BC%EC%9
 
 yup 파헤치기
 https://velog.io/@boyeon_jeong/Yup-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%ED%8C%8C%ED%97%A4%EC%B9%98%EA%B8%B0
+
+controller
+https://velog.io/@s_sangs/React-Hook-Form-%EC%9D%B4%EC%9A%A9%ED%95%B4%EC%84%9C-MUI-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EC%A0%9C%EC%96%B4%ED%95%98%EA%B8%B0
+
+react-hook-form
+https://beomy.github.io/tech/react/react-hook-form/

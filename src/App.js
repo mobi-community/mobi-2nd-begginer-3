@@ -1,9 +1,9 @@
 import "./App.css";
-import YupVersion from "./components/YupVersion";
+import ControllerVersion from "./components/ControllerVersion";
 function App() {
   return (
     <>
-      <YupVersion />
+      <ControllerVersion />
     </>
   );
 }
