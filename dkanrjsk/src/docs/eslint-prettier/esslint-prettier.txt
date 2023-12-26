@@ -1,0 +1,5 @@
+1. npm install eslint prettier --save-dev
+2. npm install eslint prettier --save-dev
+3. npm install --save-dev eslint-plugin-prettier
+4. 
+
