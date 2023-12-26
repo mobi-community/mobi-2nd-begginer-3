@@ -1,9 +1,9 @@
 import "./App.css";
-import Before from "./components/Before";
+import YupVersion from "./components/YupVersion";
 function App() {
   return (
     <>
-      <Before />
+      <YupVersion />
     </>
   );
 }

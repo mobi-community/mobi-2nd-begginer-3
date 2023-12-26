@@ -1,23 +1,5 @@
 import { useState } from "react";
-
-export const validate = {
-  id: {
-    regex: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/,
-    message: "유효하지 않은 아이디입니다.",
-  },
-  pw: {
-    regex: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$ %^&*-]).{8,}$/,
-    message: "유효하지 않은 비밀번호입니다.",
-  },
-  phoneNumber: {
-    regex: /^\d{3}-\d{3,4}-\d{4}$/,
-    message: "유효하지 않은 핸드폰 번호입니다.",
-  },
-  birth: {
-    regex: /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
-    message: "유효하지 않은 생년월일입니다.",
-  },
-};
+import VALIDATION from "../constants/validation";
 
 const Before = () => {
   const [inputs, setInputs] = useState({
@@ -40,13 +22,13 @@ const Before = () => {
       setErrorMessage(`${e.target.name}을 입력해주세요.`);
     }
     //validation
-    const targetRegex = validate[e.target.name].regex;
+    const targetRegex = VALIDATION[e.target.name].regex;
     const isSuccess = targetRegex.test(e.target.value);
 
     if (!isSuccess) {
       setErrorMessage((prev) => ({
         ...prev,
-        [e.target.name]: validate[e.target.name].message,
+        [e.target.name]: VALIDATION[e.target.name].message,
       }));
     } else {
       setErrorMessage((prev) => ({
@@ -70,7 +52,7 @@ const Before = () => {
 
   return (
     <div class="h-screen flex justify-center items-center w-full">
-      <div class="w-[500px] h-[500px]">
+      <div class="w-[450px] h-[600px]">
         <div class="text-dark_mint font-extrabold text-lg border border-b-0 w-1/4 h-[50px] text-center rounded-t-lg flex justify-center items-center">
           회원가입
         </div>
@@ -125,8 +107,8 @@ const Before = () => {
             ></input>
             <div class="text-error h-6 w-full pt-2">{errorMessage.birth}</div>
           </div>
-          <div class="col-span-3 flex justify-center h-[80px]">
-            <button class="pr-0 border-2 flex justify-center rounded-lg items-center text-lg text-white font-extrabold bg-dark_mint w-[150px] h-[40px]">
+          <div class="col-span-3 flex justify-center h-[100px] mt-[20px]">
+            <button class="pr-0 border-2 flex justify-center rounded-lg items-center text-lg text-white font-extrabold bg-dark_mint w-[150px] h-[50px]">
               제출
             </button>
           </div>
