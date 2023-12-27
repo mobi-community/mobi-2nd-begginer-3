@@ -1,5 +1,6 @@
 import { useState } from "react";
-import VALIDATION from "../constants/validation";
+import { REGEX } from "../constants/validation";
+// import VALIDATION from "../constants/validation";
 
 const Before = () => {
   const [inputs, setInputs] = useState({
@@ -22,13 +23,13 @@ const Before = () => {
       setErrorMessage(`${e.target.name}을 입력해주세요.`);
     }
     //validation
-    const targetRegex = VALIDATION[e.target.name].regex;
+    const targetRegex = REGEX[e.target.name].regex;
     const isSuccess = targetRegex.test(e.target.value);
 
     if (!isSuccess) {
       setErrorMessage((prev) => ({
         ...prev,
-        [e.target.name]: VALIDATION[e.target.name].message,
+        [e.target.name]: REGEX[e.target.name].message,
       }));
     } else {
       setErrorMessage((prev) => ({

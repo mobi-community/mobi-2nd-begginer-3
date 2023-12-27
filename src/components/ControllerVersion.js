@@ -1,6 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
-import VALIDATION from "../constants/validation";
+import { REGEX } from "../constants/validation";
 
 const ControllerVersion = () => {
   const {
@@ -38,7 +38,7 @@ const ControllerVersion = () => {
               rules={{
                 required: "아이디를 입력해 주세요.",
                 pattern: {
-                  value: VALIDATION.id.regex,
+                  value: REGEX.id,
                   message: "유효하지 않은 아이디입니다.",
                 },
               }}
@@ -60,7 +60,7 @@ const ControllerVersion = () => {
               rules={{
                 required: "비밀번호를 입력해 주세요.",
                 pattern: {
-                  value: VALIDATION.pw.regex,
+                  value: REGEX.pw,
                   message: "유효하지 않은 비밀번호입니다.",
                 },
               }}
@@ -82,7 +82,7 @@ const ControllerVersion = () => {
               rules={{
                 required: "핸드폰 번호를 입력해 주세요.",
                 pattern: {
-                  value: VALIDATION.phoneNumber.regex,
+                  value: REGEX.phoneNumber,
                   message: "유효하지 않은 핸드폰 번호입니다.",
                 },
               }}
@@ -104,7 +104,7 @@ const ControllerVersion = () => {
               rules={{
                 required: "생년월일를 입력해 주세요.",
                 pattern: {
-                  value: VALIDATION.birth.regex,
+                  value: REGEX.birth,
                   message: "유효하지 않은 생년월일입니다.",
                 },
               }}

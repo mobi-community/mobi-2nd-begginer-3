@@ -1,28 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import VALIDATION from "../constants/validation";
-
-//스키마 정의
-const schema = yup.object({
-  id: yup
-    .string()
-    .email("이메일 형식으로 입력해 주세요.")
-    .required("아이디를 입력해 주세요."),
-  pw: yup
-    .string()
-    .min(8, "8자 이상으로 입력해 주세요.")
-    .matches(VALIDATION.pw.regex, VALIDATION.pw.message)
-    .required("비밀번호를 입력해 주세요."),
-  phoneNumber: yup
-    .string()
-    .matches(VALIDATION.phoneNumber.regex, VALIDATION.phoneNumber.message)
-    .required("핸드폰 번호를 입력해 주세요."),
-  birth: yup
-    .string()
-    .matches(VALIDATION.birth.regex, VALIDATION.birth.message)
-    .required("생년월일을 입력해 주세요."),
-});
+import { schema } from "../utils/schema";
 
 const YupVersion = () => {
   const {
