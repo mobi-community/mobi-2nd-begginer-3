@@ -71,40 +71,15 @@ const AuthPage = () => {
           회원가입
         </div>
         <form
-          class="shadow-lg border grid grid-cols-3 rounded-tr-lg rounded-br-lg rounded-bl-lg h-[550px]"
+          class="shadow-lg border grid grid-cols-3 rounded-tr-lg rounded-br-lg rounded-bl-lg h-[400px]"
           onSubmit={onSubmit}
         >
           {REQUIREMENTS[currentStep].map((item) => {
-            const { label, name } = item;
-            return (
-              // <>
-              //   <label class="flex justify-center items-center ">{label}</label>
-              //   <div class="col-span-2 pr-12 relative flex items-center">
-              //     <input
-              //       class="border-2 rounded-md w-full h-[40px] pl-3"
-              //       name={name}
-              //       placeholder={`${label}을 입력해주세요.`}
-              //       {...register(name)}
-              //     />
-
-              //     {errors[name] && (
-              //       <div class="text-error h-6 w-full absolute bottom-[25px]">
-              //         {errors[name].message}
-              //       </div>
-              //     )}
-              //   </div>
-              // </>
-              <NRInput
-                register={register}
-                label={item.label}
-                name={item.name}
-                errors={errors}
-              />
-            );
+            return <NRInput register={register} item={item} errors={errors} />;
           })}
           {/*1,2단게 => 다음, 3단계 => 제출*/}
           <div class="col-span-3 flex justify-center h-[20px] mt-[20px]">
-            <button class="pr-0 border-2 flex justify-center rounded-lg items-center text-lg text-white font-extrabold bg-dark_mint w-[150px] h-[50px]">
+            <button class="pr-0 mt-[30px] border-2 flex justify-center rounded-lg items-center text-lg text-white font-extrabold bg-dark_mint w-[120px] h-[40px]">
               {currentStep !== REQUIREMENTS.length - 1 ? "다음" : "제출"}
             </button>
           </div>

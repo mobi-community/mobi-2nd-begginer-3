@@ -1,5 +1,5 @@
-const NRInput = ({ label, name, register, errors }) => {
-  console.log("register", register);
+const NRInput = ({ item, register, errors }) => {
+  const { label, name } = item;
   return (
     <>
       <label class="flex justify-center items-center ">{label}</label>
@@ -11,7 +11,7 @@ const NRInput = ({ label, name, register, errors }) => {
           {...register(name)}
         />
 
-        {errors.name && (
+        {errors[name] && (
           <div class="text-error h-6 w-full absolute bottom-0">
             {errors[name].message}
           </div>
