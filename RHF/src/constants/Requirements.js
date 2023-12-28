@@ -25,7 +25,7 @@ export const REQUIREMENTS = [
   },
   {
     label: "하고 싶은 말",
-    name: "sayWords",
+    nmae: "sayWords",
     step: 2,
     input: false,
   },
