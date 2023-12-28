@@ -1,15 +1,10 @@
 import { createBrowserRouter } from "react-router-dom"
-import AirbnbCard from "../ui-library/card.chakra"
-import Chakra_Product_Card from "../ui-library/card.chakra"
+import RHF_SignUp from "../pages/rhf"
 
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <Chakra_Product_Card />,
-	},
-	{
-		path: "/airbnb",
-		element: <AirbnbCard />,
+		element: <RHF_SignUp />,
 	},
 ])
 

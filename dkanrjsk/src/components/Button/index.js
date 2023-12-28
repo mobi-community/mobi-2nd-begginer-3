@@ -1,10 +1,15 @@
 import { Button } from "./style"
 
-
-const Pair_2_Button = ({ variant, size, shape, children, ...rest }) => {
+const Pair_2_Button = ({ variant, size, shape, children, onClick, ...rest }) => {
 	return (
 		<>
-			<Button variant={variant} size={size} shape={shape} {...rest}>
+			<Button
+				variant={variant}
+				size={size}
+				shape={shape}
+				onClick={onClick}
+				{...rest}
+			>
 				{children}
 			</Button>
 		</>
@@ -12,5 +17,3 @@ const Pair_2_Button = ({ variant, size, shape, children, ...rest }) => {
 }
 
 export default Pair_2_Button
-
-
