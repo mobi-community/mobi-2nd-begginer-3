@@ -8,3 +8,10 @@ export const REGEX = {
 export const INVALID_MESSAGE = (name) => {
   return `유효하지 않은 ${name}입니다.`;
 };
+
+export const MESSAGE = {
+  SAY_WORDS: {
+    min: "최소 100자 이상이어야 합니다.",
+    max: "최대 300자 이하여야 합니다.",
+  },
+};

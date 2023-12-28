@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { REGEX } from "../constants/validation";
-// import VALIDATION from "../constants/validation";
+import { REGEX } from "../constants/Validation";
 
 const Before = () => {
   const [inputs, setInputs] = useState({
