@@ -3,20 +3,18 @@ import { useForm } from "react-hook-form";
 import { schema } from "../utils/schema";
 import NRInput from "../components/Input";
 import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const AuthPage = () => {
-  //step steps formStep
-  // const [step, setStep] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const currentStep = Number(searchParams.get("step")) || 0;
-  console.log("currentStep", currentStep);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
-    mode: "onChange",
+    mode: "all",
     resolver: yupResolver(schema),
   });
 
@@ -64,22 +62,30 @@ const AuthPage = () => {
     ],
   ];
 
+  useEffect(() => {
+    console.log("isValid", isValid);
+    console.log("errors", errors);
+  }, [errors, isValid]);
+
   return (
-    <div class="h-screen flex justify-center items-center w-full">
-      <div class="w-[500px] h-[550px]">
-        <div class="text-dark_mint font-extrabold text-lg border border-b-0 w-1/4 h-[50px] text-center rounded-t-lg flex justify-center items-center">
+    <div className="h-screen flex justify-center items-center w-full">
+      <div className="w-[500px] h-[550px]">
+        <div className="text-dark_mint font-extrabold text-lg border border-b-0 w-1/4 h-[50px] text-center rounded-t-lg flex justify-center items-center">
           회원가입
         </div>
         <form
-          class="shadow-lg border grid grid-cols-3 rounded-tr-lg rounded-br-lg rounded-bl-lg h-[400px]"
+          className="shadow-lg border grid grid-cols-3 rounded-tr-lg rounded-br-lg rounded-bl-lg h-[400px]"
           onSubmit={onSubmit}
         >
           {REQUIREMENTS[currentStep].map((item) => {
             return <NRInput register={register} item={item} errors={errors} />;
           })}
           {/*1,2단게 => 다음, 3단계 => 제출*/}
-          <div class="col-span-3 flex justify-center h-[20px] mt-[20px]">
-            <button class="pr-0 mt-[30px] border-2 flex justify-center rounded-lg items-center text-lg text-white font-extrabold bg-dark_mint w-[120px] h-[40px]">
+          <div className="col-span-3 flex justify-center h-[20px] mt-[20px]">
+            <button
+              disabled={!isValid}
+              className="pr-0 mt-[30px] border-2 flex justify-center rounded-lg items-center text-lg text-white font-extrabold bg-dark_mint w-[120px] h-[40px] disabled:opacity-50"
+            >
               {currentStep !== REQUIREMENTS.length - 1 ? "다음" : "제출"}
             </button>
           </div>
