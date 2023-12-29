@@ -14,9 +14,10 @@ const Begginer3SignUp = () => {
   return (
     <div>
       <h1>Zi존피넛123 사이트</h1>
-      {currentStep === 1 && <StepOne />}
-      {currentStep === 2 && <StepTwo />}
-      {currentStep === 3 && <StepThree />}
+
+      {Number(currentStep) === 1 && <StepOne />}
+      {Number(currentStep) === 2 && <StepTwo />}
+      {Number(currentStep) === 3 && <StepThree />}
     </div>
   );
 };

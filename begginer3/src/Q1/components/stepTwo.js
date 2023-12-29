@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import Pair3Form from "../../components/form";
 /* 
 step2. 연락처와 생년 월일을 입력합니다. 
@@ -6,11 +7,14 @@ step2. 연락처와 생년 월일을 입력합니다.
 */
 
 const StepTwo = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const register = ["phoneNumber", "birthDay"];
   const inputType = ["text", "date"];
 
   const onSubmit = () => {
-    console.log("step two");
+    searchParams.set("currentStep", 3);
+    setSearchParams(searchParams);
   };
 
   return (
@@ -19,6 +23,7 @@ const StepTwo = () => {
       registerArr={register}
       buttonText="다음"
       inputTypeArr={inputType}
+      currentStep={2}
     />
   );
 };

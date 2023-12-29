@@ -7,14 +7,14 @@ step1. 아이디와 비밀번호를 입력합니다
         - 비밀번호는 8글자 이상 대소문자, 특수문자를 1자 이상 포함
 */
 const StepOne = () => {
-  // const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const register = ["email", "password"];
   const inputType = ["email", "password"];
 
-  const onStepOneSubmit = (e) => {
-    // e.preventDefault();
-    console.log("랜더링 발생");
+  const onStepOneSubmit = () => {
+    searchParams.set("currentStep", 2);
+    setSearchParams(searchParams);
   };
 
   return (
@@ -23,6 +23,7 @@ const StepOne = () => {
       registerArr={register}
       inputTypeArr={inputType}
       buttonText="다음"
+      currentStep={1}
     />
   );
 };
