@@ -15,8 +15,8 @@ const COLORS = {
 
 const FONT_SIZE = {
 	small: "12px",
-	medium: "28px",
-	large: "38px",
+	medium: "18px",
+	large: "30px",
 }
 
 const FONT_WEIGHT = {
