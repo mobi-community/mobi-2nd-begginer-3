@@ -1,8 +1,7 @@
 import "./App.css";
-import Home from "./pages";
-
+import CounterPage from "./Two";
 function App() {
-  return <Home />;
+  return <CounterPage />;
 }
 
 export default App;

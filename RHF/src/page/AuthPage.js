@@ -6,10 +6,6 @@ import { totalSchema } from "../utils/schema";
 import { REQUIREMENTS } from "../constants/Requirements";
 import NRTextarea from "../components/TextArea";
 
-//step => 3 textarea
-// textarea vs input => 인풋마다 개별적인 거 -> 어디서 관리?
-// 아이디 비밀번호
-//비밀번호 => textarea
 const AuthPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentStep = Number(searchParams.get("step")) || 0;
