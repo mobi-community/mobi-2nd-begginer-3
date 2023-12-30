@@ -16,7 +16,7 @@ export const definePostList = (count) =>
       User: {
         id: randomId.generate(),
         nickName: faker.person.firstName(),
-        profileImg: faker.image.image(),
+        profileImg: faker.image.url(),
       },
     }));
 

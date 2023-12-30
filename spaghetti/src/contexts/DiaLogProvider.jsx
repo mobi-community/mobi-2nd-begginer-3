@@ -9,7 +9,8 @@ export const DialLogState = {
 const DiaLogContext = createContext();
 
 export const useDiaLogStore = () => useContext(DiaLogContext);
-const DiaLogProvider = ({ children }) => {
+
+const DialogProvider = ({ children }) => {
   const diaLogRef = useRef();
   const [diaLogAttribute, setDiaLogAttribute] = useState({
     type: DialLogState.ALERT,
@@ -55,4 +56,4 @@ const DiaLogProvider = ({ children }) => {
     </DiaLogContext.Provider>
   );
 };
-export default DiaLogProvider;
+export default DialogProvider;

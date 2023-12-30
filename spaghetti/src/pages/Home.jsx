@@ -1,39 +1,20 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
-import { weatherConfig } from "../third-party/weather.config";
 import { DialLogState, useDiaLogStore } from "../contexts/DialogProvider";
-
+import useAxios from "../hooks/useAxios";
+import { weatherAxiosInfo } from "../store/AxiosInfo";
+import { weatherAxiosInfoWithoutBaseDate } from "../store/AxiosInfo";
 const HomePage = () => {
   const [isBackGroundBlur, setIsBackGroundBlur] = useState(true);
-  const [weather, setWeather] = useState();
   const [, setDiaLogAttribute] = useDiaLogStore();
 
-  const fetchWeather = async () => {
-    try {
-      const response = await axios.get("/getUltraSrtNcst", {
-        baseURL: weatherConfig.api,
-        params: {
-          serviceKey: weatherConfig.secret_key,
-          dataType: "JSON",
-          base_date: new Date()
-            .toISOString()
-            .substring(0, 10)
-            .replace(/-/g, ""),
-          base_time: "0600",
-          nx: 60,
-          ny: 127,
-        },
-      });
-      setWeather(response.data.response.body.items.item);
-    } catch (err) {
-      console.log(err);
-      throw new Error("failed load weather api");
-    }
-  };
+  const { data } = useAxios([
+    weatherAxiosInfo,
+    weatherAxiosInfoWithoutBaseDate,
+  ]);
+  const weather = data?.response?.body?.items?.item;
 
   useEffect(() => {
-    fetchWeather();
     const userName = localStorage.getItem("userName");
     if (!userName) {
       return setIsBackGroundBlur(true);

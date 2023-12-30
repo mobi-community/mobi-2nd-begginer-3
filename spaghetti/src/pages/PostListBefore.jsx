@@ -3,16 +3,21 @@ import { useEffect, useState } from "react";
 import { DialLogState, useDiaLogStore } from "../contexts/DialogProvider";
 import PostPageNation from "../components/pagenation/Pagenation.Post";
 import { useSearchParams } from "react-router-dom";
-import useAxios from "../hooks/useAxios";
-import { postListAxiosInfo } from "../store/AxiosInfo";
 
 const LIMIT_TAKE = 10;
-const PostListPage = () => {
+const PostListPageBefore = () => {
   const [params] = useSearchParams();
+  const [postList, setPostList] = useState([]);
   const [, setDiaLogAttribute] = useDiaLogStore();
 
-  const { data: postData } = useAxios([postListAxiosInfo(params), params]);
-  const postList = postData?.Posts;
+  const fetchPostList = async () => {
+    const response = await axios.get("/api/posts", {
+      params: {
+        take: params.get("take") ?? LIMIT_TAKE,
+      },
+    });
+    setPostList(response.data.Posts);
+  };
 
   useEffect(() => {
     const userName = localStorage.getItem("userName");
@@ -21,6 +26,10 @@ const PostListPage = () => {
       window.location.href = "/";
     }
   }, []);
+
+  useEffect(() => {
+    fetchPostList();
+  }, [params]);
 
   const onClickPost = async (postId) => {
     await setDiaLogAttribute({
@@ -49,7 +58,7 @@ const PostListPage = () => {
         <th>내용</th>
         <th>작성자</th>
       </tr>
-      {postList?.map((post) => (
+      {postList.map((post) => (
         <tr key={post.id} onClick={() => onClickPost(post.id)}>
           <td>{post.title}</td>
           <td>{post.content}</td>
@@ -60,4 +69,4 @@ const PostListPage = () => {
     </table>
   );
 };
-export default PostListPage;
+export default PostListPageBefore;

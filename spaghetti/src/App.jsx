@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import PostListPage from "./pages/Post.list";
-import PostDetailPage from "./pages/Post.detail";
+import PostDetailPage from "./pages/Post.Detail";
 import "./app.css";
 import HomePage from "./pages/Home";
 import DiaLogProvider from "./contexts/DialogProvider";
