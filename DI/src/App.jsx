@@ -1,7 +1,9 @@
 import "./App.css";
-import CounterPage from "./Two";
+import { RouterProvider } from "react-router-dom";
+import router from "./router/router";
+
 function App() {
-  return <CounterPage />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;
