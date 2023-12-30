@@ -13,13 +13,12 @@ module.exports = {
 		sourceType: "module",
 	},
 
-	plugins: ["react", "unused-imports"],
+	plugins: ["react"],
 
 	// 세부규칙
 	rules: {
 		"react/jsx-uses-vars": "error",
 		"react/jsx-uses-react": "error",
-		"unused-imports/no-unused-imports-ts": ["error"],
 		// "space-before-function-paren": [
 		// 	"error",
 		// 	{

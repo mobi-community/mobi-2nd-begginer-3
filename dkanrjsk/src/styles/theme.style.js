@@ -7,6 +7,7 @@ const COLORS = {
 	white: "#FFFFFF",
 	black: "#0F0F0F",
 	error: "#ED2939",
+	mint: "#60FFC2",
 	gray: {
 		100: "#EBECF0",
 		300: "#BABEBC",

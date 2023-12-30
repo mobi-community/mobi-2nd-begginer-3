@@ -1,5 +1,5 @@
 // 업로드 시간 가공
-const displayCreateAt = createdAt => {
+export const displayCreateAt = createdAt => {
 	const date = new Date(createdAt)
 	const now = Date.now()
 	const milliSeconds = now - date

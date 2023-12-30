@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 import Pair_2_Input from "../../../components/Input"
 import Pair_2_Button from "../../../components/Button"
 import { signUpStep } from "../../../consts/step"
@@ -15,17 +15,24 @@ const SignUp_Yup = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm({ mode: "onChange", resolver: yupResolver(schema[step - 1])})
-	const navigate = useNavigate()
+	} = useForm({ mode: "onChange", resolver: yupResolver(schema[step - 1]) })
 
 	const numberStep = Number(step)
+	const storageKey = ["email", "password", "phone", "birthday", "text"]
 
 	const onSubmitForm = data => {
 		// js의 기본에러 대신 throw new Error를 통해 더 친근한 에러보여주기
-		if (numberStep > signUpStep.length) throw new Error("마지막 페이지임")
+		if (numberStep > signUpStep.length) throw new Error("마지막 페이지입니다")
 		if (numberStep === signUpStep.length) return alert(JSON.stringify(data))
 		let nextStep = numberStep + 1
-		navigate(`/yup?step=${nextStep}`)
+		setSearchParams({
+			step: nextStep,
+		})
+
+		// data.email
+		storageKey.map(key => {
+			localStorage.setItem(key, data[key])
+		})
 	}
 
 	return (
@@ -39,6 +46,7 @@ const SignUp_Yup = () => {
 					maxLength={el.maxLength}
 					register={register}
 					errors={errors}
+					value={localStorage.getItem(el)}
 				/>
 			))}
 			<Pair_2_Button variant={"primary"} size={"large"}>

@@ -18,27 +18,32 @@ const SignUp = () => {
 	} = useForm({
 		mode: "onChange",
 		defaultValues: {
-			email: "h2@naver.com",
-			password: "12345DKJAFdk@",
-			phone: "010-1234-1234",
-			birthday: "2023-11-11",
-			text: "dafd",
+			email: "",
+			password: "",
+			phone: "",
+			birthday: "",
+			text: "",
 		},
 	})
-	// const navigate = useNavigate()
 
 	const numberStep = Number(step)
+	const storageKey = ["email", "password", "phone", "birthday", "text"]
 
 	const onSubmitForm = data => {
+		storageKey.map(key => {
+			if (data[key]) {
+				localStorage.setItem(key, data[key])
+			}
+		})
 		// js의 기본에러 대신 throw new Error를 통해 더 친근한 에러보여주기
-		if (numberStep > signUpStep.length) throw new Error("마지막 페이지임")
+		if (numberStep > signUpStep.length) throw new Error("마지막 페이지입니다")
 		if (numberStep === signUpStep.length) return alert(JSON.stringify(data))
 		let nextStep = numberStep + 1
+		// url encoding
 		console.log("nextStep", nextStep) // 2
-		setSearchParams({ step: nextStep })
-		console.log("data", data)
-		// console.log("data", data.password)
-		// navigate(`/sign-up?step=${nextStep}`)
+		setSearchParams({
+			step: nextStep,
+		})
 	}
 
 	return (
@@ -52,7 +57,8 @@ const SignUp = () => {
 					maxLength={el.maxLength}
 					register={register}
 					errors={errors}
-					// defaultValue={data.email}
+					defaultValue={localStorage.getItem(el)}
+					// 아래인풋만 저장되는 문제..
 				/>
 			))}
 			<Pair_2_Button variant={"primary"} size={"large"}>

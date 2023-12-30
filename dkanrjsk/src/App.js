@@ -4,15 +4,18 @@ import router from "./router/routes"
 import { RouterProvider } from "react-router-dom"
 import GlobalStyles from "./styles/global.style"
 import { ChakraProvider } from "@chakra-ui/react"
+import TodoProvider from "./context/todo-context"
 
 function App() {
 	return (
-		<ChakraProvider>
-			<ThemeProvider theme={theme}>
-				<GlobalStyles />
-				<RouterProvider router={router} />
-			</ThemeProvider>
-		</ChakraProvider>
+		<TodoProvider>
+			<ChakraProvider>
+				<ThemeProvider theme={theme}>
+					<GlobalStyles />
+					<RouterProvider router={router} />
+				</ThemeProvider>
+			</ChakraProvider>
+		</TodoProvider>
 	)
 }
 
