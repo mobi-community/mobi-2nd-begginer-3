@@ -10,3 +10,5 @@ const makeCreatePost =
   };
 
 export { makeCreatePost };
+
+//makeCreatePost(axios)

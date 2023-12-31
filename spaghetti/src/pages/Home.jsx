@@ -4,6 +4,7 @@ import { DialLogState, useDiaLogStore } from "../contexts/DialogProvider";
 import useAxios from "../hooks/useAxios";
 import { weatherAxiosInfo } from "../store/AxiosInfo";
 import { weatherAxiosInfoWithoutBaseDate } from "../store/AxiosInfo";
+
 const HomePage = () => {
   const [isBackGroundBlur, setIsBackGroundBlur] = useState(true);
   const [, setDiaLogAttribute] = useDiaLogStore();
@@ -12,6 +13,7 @@ const HomePage = () => {
     weatherAxiosInfo,
     weatherAxiosInfoWithoutBaseDate,
   ]);
+
   const weather = data?.response?.body?.items?.item;
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 //axiosInstace
-import { api } from "apis/core";
+import { api } from "apis/core"; //axios
 import { makeCreatePost } from "./makeCreatePost";
 
 //makeCreatePost안에 api를 import 해서 연결하는 container

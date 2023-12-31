@@ -15,10 +15,10 @@ const AuthPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, defaultValues },
   } = useForm({
     mode: "onChange",
-    resolver: yupResolver(totalSchema[`schema${currentStep + 1}`]),
+    resolver: yupResolver(totalSchema[currentStep]),
   });
 
   //제출 함수

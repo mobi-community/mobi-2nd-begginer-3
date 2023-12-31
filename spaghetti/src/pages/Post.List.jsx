@@ -4,9 +4,9 @@ import { DialLogState, useDiaLogStore } from "../contexts/DialogProvider";
 import PostPageNation from "../components/pagenation/Pagenation.Post";
 import { useSearchParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
-import { postListAxiosInfo } from "../store/AxiosInfo";
+import { paginationAxiosInfo, postListAxiosInfo } from "../store/AxiosInfo";
+import PagiNation from "../components/pagenation/pagination";
 
-const LIMIT_TAKE = 10;
 const PostListPage = () => {
   const [params] = useSearchParams();
   const [, setDiaLogAttribute] = useDiaLogStore();
@@ -56,7 +56,9 @@ const PostListPage = () => {
           <td>{post.User.nickName}</td>
         </tr>
       ))}
-      <PostPageNation />
+      <PagiNation
+        axiosInfo={paginationAxiosInfo({ params: params, endPoint: "posts" })}
+      />
     </table>
   );
 };

@@ -11,7 +11,8 @@ const useAxios = ([axiosInfo, rerender]) => {
     await axios
       .request(axiosInfo)
       .then((res) => {
-        setData(res.data);
+        console.log(res.data);
+        setData(res?.data);
       })
       .catch((err) => {
         setError(err);
@@ -20,15 +21,6 @@ const useAxios = ([axiosInfo, rerender]) => {
         setIsLoading(false);
       });
   };
-
-  // const baseInfo = (axiosInfo) => {
-  //   if ("base_date" in axiosInfo.params) {
-  //     return weatherAxiosInfoWithoutBaseDate;
-  //   }
-  //   return axiosInfo;
-  // };
-
-  //baseInfo(axiosInfo)
 
   useEffect(() => {
     const fetchDataAsync = async () => {

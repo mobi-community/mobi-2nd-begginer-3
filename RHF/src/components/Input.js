@@ -1,4 +1,5 @@
 const NRInput = ({ item, register, errors, isShow }) => {
+  console.log("register", register);
   const { label, name } = item;
   return (
     <div className={!isShow ? "hidden" : "flex justify-center py-1.5"}>
@@ -12,6 +13,7 @@ const NRInput = ({ item, register, errors, isShow }) => {
           placeholder={`${label}을 입력해주세요.`}
           {...register(name)}
         />
+        s
         {errors[name] && (
           <div className="text-error h-6 w-full absolute bottom-[-30px]">
             {errors[name].message}

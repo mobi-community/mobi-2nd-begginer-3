@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import VALIDATION from "../constants/validation";
+import VALIDATION from "../constants/Validation";
 
 const RHFVersion = () => {
   const {

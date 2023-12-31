@@ -1,6 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
-import { REGEX } from "../constants/validation";
+import { REGEX } from "../constants/Validation";
 
 const ControllerVersion = () => {
   const {

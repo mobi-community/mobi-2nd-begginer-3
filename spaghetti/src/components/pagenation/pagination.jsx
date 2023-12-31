@@ -1,46 +1,12 @@
-import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import useAxios from "../../hooks/useAxios";
+import { LIMIT } from "../../consts/Const";
 
-const LIMIT_PAGE = 10;
-const LIMIT_TAKE = 20;
-
-const PagiNation = () => {
+const PagiNation = ({ axiosInfo }) => {
   const [params, setParams] = useSearchParams();
-  const [pageNation, setPageNation] = useState();
-
-  const CommentPageNationAxiosInfo = {
-    url: "/api/posts",
-    params: {
-      page: params.get("page") ?? 1,
-      take: params.get("take") ?? LIMIT_TAKE,
-      limit: params.get("limit") ?? LIMIT_PAGE,
-    },
-    method: "get",
-  };
-
-  const [data] = useAxios(CommentPageNationAxiosInfo(params));
-  const pageNum = data?.data?.pageNation;
-
-  //   const fetchPostPageNation = useCallback(async () => {
-  //     const response = await axios.get("/api/posts", {
-  //       params: {
-  //         page: params.get("page") ?? 1,
-  //         take: params.get("take") ?? LIMIT_TAKE,
-  //         limit: params.get("limit") ?? LIMIT_PAGE,
-  //       },
-  //     });
-  //     const pageNation = response.data.PageNation;
-  //     setPageNation({
-  //       ...pageNation,
-  //     });
-  //   }, [params]);
-
-  useEffect(() => {
-    //fetchPostPageNation();
-    setPageNation(pageNum);
-  }, [pageNum, params]);
-  //fetchPostPageNation, params
+  const { data } = useAxios([axiosInfo, params]);
+  const pageNation = data?.PageNation;
 
   const onClickPage = (page) => {
     setParams({
@@ -50,8 +16,8 @@ const PagiNation = () => {
 
   const isPrevPageVisible = pageNation?.startPage !== 1;
   const isNextPageVisible =
-    Math.ceil(pageNation?.currentPage / LIMIT_PAGE) !==
-    Math.ceil(pageNation?.totalPage / LIMIT_PAGE);
+    Math.ceil(pageNation?.currentPage / LIMIT.PAGE) !==
+    Math.ceil(pageNation?.totalPage / LIMIT.PAGE);
 
   return (
     <div>

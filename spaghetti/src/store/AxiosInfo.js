@@ -1,4 +1,6 @@
 import { weatherConfig } from "../third-party/weather.config";
+import { LIMIT } from "../consts/Const";
+
 export const weatherAxiosInfo = {
   url: `${weatherConfig.api}/getUltraSrtNcst`,
   params: {
@@ -26,13 +28,11 @@ export const postAxiosInfo = {
   method: "get",
 };
 
-const LIMIT_TAKE = 20;
-
 export const commentsAxiosInfo = (params) => {
   return {
     url: "/api/comments",
     params: {
-      take: params.get("take") ?? LIMIT_TAKE,
+      take: params.get("take") ?? LIMIT.TAKE,
     },
     method: "get",
   };
@@ -42,7 +42,19 @@ export const postListAxiosInfo = (params) => {
   return {
     url: "/api/posts",
     params: {
-      take: params.get("take") ?? LIMIT_TAKE,
+      take: params.get("take") ?? LIMIT.TAKE,
+    },
+    method: "get",
+  };
+};
+
+export const paginationAxiosInfo = ({ params, endPoint }) => {
+  return {
+    url: `/api/${endPoint}`,
+    params: {
+      page: params.get("page") ?? 1,
+      take: params.get("take") ?? LIMIT.TAKE,
+      limit: params.get("limit") ?? LIMIT.PAGE,
     },
     method: "get",
   };

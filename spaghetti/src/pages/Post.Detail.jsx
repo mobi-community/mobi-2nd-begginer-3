@@ -3,9 +3,13 @@ import { useEffect, useState } from "react";
 import CommentPageNation from "../components/pagenation/Pagenation.Comment";
 import { useSearchParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
-import { commentsAxiosInfo, postAxiosInfo } from "../store/AxiosInfo";
+import {
+  commentsAxiosInfo,
+  paginationAxiosInfo,
+  postAxiosInfo,
+} from "../store/AxiosInfo";
+import PagiNation from "../components/pagenation/pagination";
 
-const LIMIT_TAKE = 20;
 const PostDetailPage = () => {
   const [params] = useSearchParams();
   const [isOpenCommentList, setIsOpenCommentList] = useState(false);
@@ -55,7 +59,12 @@ const PostDetailPage = () => {
                 <p>{comment.User.nickName}</p>
               </div>
             ))}
-            <CommentPageNation />
+            <PagiNation
+              axiosInfo={paginationAxiosInfo({
+                params: params,
+                endPoint: "comments",
+              })}
+            />
           </>
         )}
       </div>
