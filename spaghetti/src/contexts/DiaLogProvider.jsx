@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import Dialog from "../components/Dialog";
+import Dialog from "../components/_common/Dialog";
 
 export const DialLogState = {
   ALERT: "ALERT",

@@ -1,26 +1,16 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import CommentPageNation from "../components/pagenation/Pagenation.Comment";
 import { useSearchParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
-import {
-  commentsAxiosInfo,
-  paginationAxiosInfo,
-  postAxiosInfo,
-} from "../store/AxiosInfo";
-import PagiNation from "../components/pagenation/pagination";
+import { postAxiosInfo } from "../store/AxiosInfo";
+import StorageHandler from "../repository/StorageHandler";
 
 const PostDetailPage = () => {
   const [params] = useSearchParams();
   const [isOpenCommentList, setIsOpenCommentList] = useState(false);
-
   const { data: postDetail } = useAxios([postAxiosInfo, params]);
-  const { data: commentData } = useAxios([commentsAxiosInfo(params), params]);
-  const commentList = commentData?.Comments;
 
   const onClickMoreComments = async () => {
     setIsOpenCommentList(true);
-    fetchComments();
   };
 
   const onClickHiddenComments = () => {
@@ -28,7 +18,7 @@ const PostDetailPage = () => {
   };
 
   useEffect(() => {
-    const userName = localStorage.getItem("userName");
+    const userName = StorageHandler.getLocalStorage("userName");
     if (!userName) {
       alert("로그인이 필요합니다");
       window.location.href = "/";
@@ -45,28 +35,10 @@ const PostDetailPage = () => {
       <div>
         <p>제목: {postDetail?.title}</p>
         <p>내용: {postDetail?.content}</p>
-        {!isOpenCommentList && (
-          <button onClick={onClickMoreComments}>댓글 보기</button>
-        )}
-        {isOpenCommentList && (
-          <button onClick={onClickHiddenComments}>댓글 숨기기</button>
-        )}
-        {isOpenCommentList && (
-          <>
-            {commentList?.map((comment) => (
-              <div key={comment.id}>
-                <p>{comment.content}</p>
-                <p>{comment.User.nickName}</p>
-              </div>
-            ))}
-            <PagiNation
-              axiosInfo={paginationAxiosInfo({
-                params: params,
-                endPoint: "comments",
-              })}
-            />
-          </>
-        )}
+
+        <button onClick={onClickMoreComments}>댓글 보기</button>
+        <button onClick={onClickHiddenComments}>댓글 숨기기</button>
+        {isOpenCommentList && <Comment />}
       </div>
     </div>
   );

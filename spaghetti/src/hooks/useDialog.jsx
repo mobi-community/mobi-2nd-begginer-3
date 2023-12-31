@@ -1,4 +1,4 @@
-import { useDiaLogStore } from "../contexts/DialogProvider";
+import { DialLogState, useDiaLogStore } from "../contexts/DialogProvider";
 
 const useDialog = () => {
   const [, setDiaLogAttribute] = useDiaLogStore();

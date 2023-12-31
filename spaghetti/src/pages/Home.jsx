@@ -1,23 +1,15 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { DialLogState, useDiaLogStore } from "../contexts/DialogProvider";
-import useAxios from "../hooks/useAxios";
-import { weatherAxiosInfo } from "../store/AxiosInfo";
-import { weatherAxiosInfoWithoutBaseDate } from "../store/AxiosInfo";
+import useDialog from "../hooks/useDialog";
+import StorageHandler from "../repository/StorageHandler";
+import Temperature from "../components/Home/Temperature";
 
 const HomePage = () => {
   const [isBackGroundBlur, setIsBackGroundBlur] = useState(true);
-  const [, setDiaLogAttribute] = useDiaLogStore();
-
-  const { data } = useAxios([
-    weatherAxiosInfo,
-    weatherAxiosInfoWithoutBaseDate,
-  ]);
-
-  const weather = data?.response?.body?.items?.item;
+  const { onPressNavigateBlog } = useDialog();
 
   useEffect(() => {
-    const userName = localStorage.getItem("userName");
+    const userName = StorageHandler.getLocalStorage("userName");
     if (!userName) {
       return setIsBackGroundBlur(true);
     } else setIsBackGroundBlur(false);
@@ -27,21 +19,9 @@ const HomePage = () => {
     e.preventDefault();
     const userName = e.target.userName.value.trim();
     if (!userName) return alert("이름을 입력해주세요");
-    localStorage.setItem("userName", userName);
+    StorageHandler.setLocalStorage("userName", userName);
     setIsBackGroundBlur(false);
     e.target.userName.value = "";
-  };
-
-  const onPressNavigateBlog = () => {
-    setDiaLogAttribute({
-      type: DialLogState.ALERT,
-      text: "정말로 페이지를 이동하겠습니까",
-      isOpen: true,
-      onConfirm: async () => {
-        await setDiaLogAttribute({ isOpen: false });
-        window.location.href = "/posts";
-      },
-    });
   };
 
   return (
@@ -56,8 +36,7 @@ const HomePage = () => {
       )}
       <div>
         <h1>Home Page</h1>
-        <p>오늘의 기온</p>
-        <p>{weather?.find((el) => el.category === "T1H").obsrValue}도</p>
+        <Temperature />
         <S.Button onClick={onPressNavigateBlog}>블로그 보러가기</S.Button>
       </div>
     </>
