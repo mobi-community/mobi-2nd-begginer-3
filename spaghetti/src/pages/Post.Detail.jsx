@@ -19,12 +19,8 @@ const PostDetailPage = () => {
     getCommentsApi(params, LIMIT_TAKE.TWENTY)
   );
 
-  const onClickMoreComments = async () => {
-    setIsOpenCommentList(true);
-  };
-
-  const onClickHiddenComments = () => {
-    setIsOpenCommentList(false);
+  const onClickCommentsBtn = async () => {
+    setIsOpenCommentList((prev) => !prev);
   };
 
   useEffect(() => {
@@ -45,11 +41,10 @@ const PostDetailPage = () => {
       <div>
         <p>제목: {postData?.title}</p>
         <p>내용: {postData?.content}</p>
-        {!isOpenCommentList && (
-          <button onClick={onClickMoreComments}>댓글 보기</button>
-        )}
-        {isOpenCommentList && (
-          <button onClick={onClickHiddenComments}>댓글 숨기기</button>
+        {!isOpenCommentList ? (
+          <button onClick={onClickCommentsBtn}>댓글 보기</button>
+        ) : (
+          <button onClick={onClickCommentsBtn}>댓글 숨기기</button>
         )}
         {isOpenCommentList && (
           <>

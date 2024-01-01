@@ -23,6 +23,7 @@ const CommentPageNation = () => {
   const fetchCommentPageNation = useCallback(async () => {
     const response = await axios.get("/api/comments", {
       params: {
+        // 앞에 값이 없으면 defaultValue로 1을 쓰겠습니다
         page: params.get("page") ?? 1,
         take: params.get("take") ?? LIMIT_TAKE.TWENTY,
         limit: params.get("limit") ?? LIMIT_PAGE.TEN,
