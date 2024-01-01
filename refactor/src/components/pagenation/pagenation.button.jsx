@@ -1,8 +1,11 @@
-import { useSearchParams } from "react-router-dom";
-
-const PagenationBtn = ({ startPage, currentPage, totalPage, endPage }) => {
-  const [params, setParams] = useSearchParams();
-
+const PagenationBtn = ({
+  startPage,
+  currentPage,
+  totalPage,
+  endPage,
+  setParams,
+  LIMIT_PAGE,
+}) => {
   const isPrevPageVisible = startPage !== 1;
   const isNextPageVisible =
     Math.ceil(currentPage / LIMIT_PAGE) !== Math.ceil(totalPage / LIMIT_PAGE);
