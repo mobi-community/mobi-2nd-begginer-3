@@ -8,6 +8,8 @@ const Comment = () => {
   const { data: commentData } = useAxios([commentsAxiosInfo(params), params]);
   const commentList = commentData?.Comments;
 
+  console.log("commentList", commentData);
+
   return (
     <>
       {commentList?.map((comment) => {

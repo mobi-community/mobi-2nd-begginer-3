@@ -32,7 +32,7 @@ export const postAxiosInfo = {
 // 댓글 정보를 불러오는 api
 export const commentsAxiosInfo = (params) => {
   return {
-    url: ROUTES.API_URL("commnets"),
+    url: ROUTES.API_URL("comments"),
     params: {
       take: params.get("take") ?? LIMIT.TAKE,
     },
