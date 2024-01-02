@@ -21,7 +21,7 @@ Develop: 2023.12.24 ~ 2023.1.2
 | 1/1   | 정기 휴식                                      |
 | 1/2   | spaghetti 리팩토링 (apis, routes) 완료         |
 
-## Spaghetti Code 리팩토링
+## 🍝 Spaghetti Code 리팩토링
 
 - 폴더구조
 
@@ -95,13 +95,9 @@ Develop: 2023.12.24 ~ 2023.1.2
 
 - 기존 스파게티 코드에서 api주소를 요청하고 있던 로직들을 크게 base url이 api인 post와 기온 정보를 요청하는 wheather api 두 개로 나누었습니다.
 
-![](2024-01-02-23-23-24.png)
-
 ### 공용 컴포넌트, 페이지 컴포넌트 분리
 
 - 공용 컴포넌트 폴더에는 여러 페이지에 사용된 Dialog, Pagination을, Detail과 Home 폴더에는 각 페이지에서만 사용한 로직들 (Temperature와 Comment)을 분리해 컴포넌트화 시켰습니다.
-
-![](2024-01-02-23-26-01.png)
 
 ### constant
 
@@ -117,4 +113,4 @@ Develop: 2023.12.24 ~ 2023.1.2
 
 ### routes
 
--
+- 
