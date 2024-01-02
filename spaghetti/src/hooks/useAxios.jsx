@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const useAxios = ([axiosInfo, rerenderArr]) => {
+const useAxios = ({ method, axiosInstance, url, rerenderArr, params }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const axiosConfig = {
+    method,
+    axiosInstance,
+    rerenderArr,
+    url,
+    params,
+  };
+
   const fetchData = async () => {
-    await axios
-      .request(axiosInfo)
+    await axiosInstance
+      .request(axiosConfig)
       .then((res) => {
         setData(res?.data);
       })
