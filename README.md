@@ -36,6 +36,12 @@ export const QUERY_KEY = {
 ### 💡리팩토링 내용
 + LIMIT_PAGE, LIMIT_TAKE 값은 pageNation에서 자주 재사용되는 값이므로 consts 폴더로 관리했습니다.
 + react-query를 사용하여 msw 데이터를 호출할때 사용되는 query-key값 또한 자주 재사용되므로 consts 폴더로 관리했습니다.
+
+## 📌 페이지네이션 파일은 하나로 관리
+
+### 💡리팩토링 내용
++ components/pagenation/Pagenation.Comments.jsx, components/pagenation/Pagenation.Posts.jsx 로직이 동일하므로 components/Pagenation.jsx와 같이 하나의 파일로 관리했습니다.
+
 ## 📌 msw 데이터 관리
 ### apis/api.jsx
  ```javascript
@@ -91,12 +97,7 @@ export const getWeather = async () => {
 };
 
 ```
-### components/pagenation/Pagenation.Comment.jsx
- ```javascript
-  const { data: commentData } = useQuery([QUERY_KEY.comments, params.get("page")], () => getPaginationComment(params));
-  const paginationData = commentData?.PageNation;
-```
-### components/pagenation/Pagenation.Post.jsx
+### components/Pagenation.jsx
  ```javascript
   const { data: postData } = useQuery([QUERY_KEY.posts, params.get("page")], () => getPaginationPost(params));
   const pageNationData = postData?.PageNation;
@@ -248,8 +249,45 @@ export const S = {
   Button,
 };
 ```
+### components/style.jsx
+ ```javascript
+import styled from "styled-components";
+
+const Wrapper = styled.dialog`
+  width: 400px;
+  position: absolute;
+  left: ${({ $position }) => $position.x}%;
+  top: ${({ $position }) => $position.y}%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  border: 1px solid #888;
+  ::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+  }
+`;
+
+const Button = styled.button`
+  padding: 8px;
+`;
+
+const BackDrop = styled.div`
+  width: 100%;
+`;
+
+export const S = {
+  Wrapper,
+  Button,
+  BackDrop,
+};
+```
 ### 💡리팩토링 내용
-+ style 관련 로직을 page에서 components에서 같이 사용하게 되면 코드가 길어지고 가독성이 떨어지므로 style 폴더를 만들어서 관리했습니다.
++ style 관련 로직을 page 혹은 components에서 같이 사용하게 되면 코드가 길어지고 가독성이 떨어지므로 style 폴더를 만들어서 관리했습니다.
 
+## 📌 불필요한 함수 최소화
 
-
+### pages/post.Detail.jsx
+ ```javascript
+<button onClick={onClickCommentsBtn}>{isOpenCommentList ? '댓글 숨기기' : '댓글 보기'}</button>
+```
+### 💡리팩토링 내용
++ 기존 로직은 버튼 2개에 댓글을 숨기고 보여주는 로직을 작성했지만 가독성이 좋지 않아 prev를 사용해서 하나의 함수로 관리하고 state에 따라 button에 children 값만 바뀔 수 있도록 수정했습니다.
