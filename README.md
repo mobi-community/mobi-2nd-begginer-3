@@ -142,8 +142,27 @@ https://github.com/mobi-community/mobi-2th-begginer-3/assets/125418818/b215ffff-
 ### hook 함수 분리
 
 - 각 페이지마다 fetch를 사용하는 것은 가독성이 많이 떨어지고 재사용성이 매우 떨어진다고 생각하였습니다. 따라서 fetch를 기존 사용하였던 axios를 사용하여 useAxios로 분리시켰으며, 비슷한 역할을 하는 setDialogAttribue로직들 또한 useDialog 훅으로 분리했습니다.
+- 재사용성을 위해 props로 다음과 같은 데이터를 전달 받았습니다.
+`method` : get, post같은 http 메소드를 전달합니다.
 
-![image](https://github.com/mobi-community/mobi-2th-begginer-3/assets/95909862/63752dcb-5ad4-432c-95c5-b11bf96c89e0)
+`rerenderArr` : useEffect안에 들어가는 의존성 배열입니다. 해당 값이 바뀔 때마다 fetch가 실행됩니다.
+
+`axiosInstance`: baseUrl이 달라서 만든 props입니다. axiosInstacne를 전달합니다.
+
+`params`: 데이터 패칭에 필요한 params입니다.
+
+`url` : 데이터를 요청할 세부 url입니다. 
+
+ 시간이 부족해 docs로 props로 정리하지 못했는데, 다음에는 해봐야 겠습니다!
+ 
+- `data`,`isLoading`, `error`를 state로 관리해서 데이터 상태를 관리하였습니다. 
+
+<img width="664" alt="스크린샷 2024-01-03 오전 1 18 22" src="https://github.com/mobi-community/mobi-2th-begginer-3/assets/125418818/59830e47-e645-46ce-b939-53ed66f43131">
+
+- 다음과 같이 만든 useAxios 훅을 사용하였습니다. 이로 인해, 비즈니스 로직을 분리하고, 코드의 가독성이 좋아지는 장점이 있었습니다!
+  
+<img width="456" alt="스크린샷 2024-01-03 오전 1 24 48" src="https://github.com/mobi-community/mobi-2th-begginer-3/assets/125418818/4b05d880-688b-44bd-a4b1-a007f5d5729c">
+
 
 ### repository
 
@@ -218,3 +237,8 @@ https://github.com/mobi-community/mobi-2th-begginer-3/assets/125418818/b215ffff-
          └─ timeHelper.jsx
 ```
 
+## 💚 회고
+혜린 : 지금까지 가장 에러가 많이 나고, 배운 것도 많았던 한 주 였습니다! DI에 대해 추상적으로만 이해했는데, 많은 사례를 보고 적용해보면서 이해를 할 수 있었습니다.
+react-hook-form을 사용할 때, 제공하는 기능을 사용하니까 훨씬 좋았습니다. 필요한 기능이 있다면 해당 라이브러리에서 검색해서 활용하는 습관을 들여야 겠습니다. 
+이번주에는 배운 게 많아서 블로그에 정리할 예정입니다!
+마지막 스파게티 코드에서는 다른 페어의 코드를 참고해서 api 로직을 구현했는데, 도움이 많이 되었습니다!! 페어 노엘님 수고하셨습니다ㅎㅎ
