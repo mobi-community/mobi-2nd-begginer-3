@@ -78,32 +78,3 @@ const CommentPageNation = () => {
   );
 };
 export default CommentPageNation;
-
-/*
-    return (
-    <div>
-      {isPrevPageVisible && (
-        <button onClick={() => setParams({ page: pageNation.startPage - 1 })}>
-          이전
-        </button>
-      )}
-      {pageNation &&
-        Array(pageNation.endPage - pageNation.startPage + 1)
-          .fill()
-          .map((_, i) => pageNation.startPage + i)
-          .map((page) => (
-            <button key={page} onClick={() => onClickPage(page)}>
-              {page}
-            </button>
-          ))}
-      {isNextPageVisible && (
-        <button onClick={() => setParams({ page: pageNation.endPage + 1 })}>
-          다음
-        </button>
-      )}
-    </div>
-  );
-
-  댓글 뿐만 아니라 일반 리스트 파일에서도 동일한 코드를 사용함.
-  재사용성을 위해 분리해서 리팩토링하기
-*/
