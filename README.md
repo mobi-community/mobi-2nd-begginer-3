@@ -1,90 +1,255 @@
-# mobi-2th-begginer-3
-### 1주차
+# 💻 Spaghetti Code Refactor
+
+## 📌 router 분리
+### router/router.jsx
+ ```javascript
+import { createBrowserRouter } from "react-router-dom";
+import HomePage from "../pages/Home";
+import PostListPage from "../pages/Post.List";
+import PostDetailPage from "../pages/Post.detail";
+
+export const router = createBrowserRouter([
+  { path: "/", element: <HomePage /> },
+  { path: "/posts", element: <PostListPage /> },
+  { path: "/post-detail/:postId", element: <PostDetailPage /> },
+]);
 ```
-https://lyrical-brain-e0f.notion.site/mobi-beginner-week-3-0d1a1889390849729e292c60410a605e?pvs=4
+### 💡리팩토링 내용
++ App.jsx에서 관리하고 있던 router 로직을 분리하여 App.jsx에서 import해서 사용했습니다.
+
+## 📌 재사용되는 값은 consts로 관리
+### consts/pageNation.jsx
+ ```javascript
+export const LIMIT_TAKE = 10;
+export const LIMIT_PAGE = 10;
 ```
-
-### 기간
+### consts/queryKey.jsx
+ ```javascript
+export const QUERY_KEY = {
+  post: "post",
+  posts: "posts",
+  comments: "comments",
+  weather: "weather",
+};
 ```
-(공휴일로 인한 파격적인 기간 연장!!)
-2023.12.24 ~ 2023.1.2
+### 💡리팩토링 내용
++ LIMIT_PAGE, LIMIT_TAKE 값은 pageNation에서 자주 재사용되는 값이므로 consts 폴더로 관리했습니다.
++ react-query를 사용하여 msw 데이터를 호출할때 사용되는 query-key값 또한 자주 재사용되므로 consts 폴더로 관리했습니다.
+## 📌 msw 데이터 관리
+### apis/api.jsx
+ ```javascript
+import axios from "axios";
+import { weatherConfig } from "../third-party/weather.config";
+import { LIMIT_PAGE, LIMIT_TAKE } from "../consts/pageNation";
+
+export const getPostDetailPost = async () => {
+  const response = await axios.get("/api/post");
+  return response.data;
+};
+
+export const getPaginationPost = async (params) => {
+  const response = await axios.get("/api/posts", {
+    params: {
+      page: params.get("page") ?? 1,
+      take: params.get("take") ?? LIMIT_TAKE,
+      limit: params.get("limit") ?? LIMIT_PAGE,
+    },
+  });
+  return response.data;
+};
+
+export const getPaginationComment = async (params) => {
+  const response = await axios.get("/api/comments", {
+    params: {
+      page: params.get("page") ?? 1,
+      take: params.get("take") ?? LIMIT_TAKE,
+      limit: params.get("limit") ?? LIMIT_PAGE,
+    },
+  });
+  return response.data;
+};
+
+export const getWeather = async () => {
+  try {
+    const response = await axios.get("/getUltraSrtNcst", {
+      baseURL: weatherConfig.api,
+      params: {
+        serviceKey: weatherConfig.secret_key,
+        dataType: "JSON",
+        base_date: new Date().toISOString().substring(0, 10).replace(/-/g, ""),
+        base_time: "0600",
+        nx: 60,
+        ny: 127,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    throw new Error("failed load weather api");
+  }
+};
+
 ```
-
-### 페어-편성
+### components/pagenation/Pagenation.Comment.jsx
+ ```javascript
+  const { data: commentData } = useQuery([QUERY_KEY.comments, params.get("page")], () => getPaginationComment(params));
+  const paginationData = commentData?.PageNation;
 ```
-Pair-1: Noel - Rin
-Pair-2: Kimi - Levi - Ann
-Pair-3: Daniel - Jack - Amy
+### components/pagenation/Pagenation.Post.jsx
+ ```javascript
+  const { data: postData } = useQuery([QUERY_KEY.posts, params.get("page")], () => getPaginationPost(params));
+  const pageNationData = postData?.PageNation;
 ```
-
-### 과제
+### pages/Home.jsx
+ ```javascript
+  const { data: weatherData } = useQuery([QUERY_KEY.weather], () => getWeather());
 ```
-1. RHF를 활용하여 회원가입 토이 프로젝트 만들기 + 생각해보기 정리하기
-2. 나만의 보일러 템플릿 만들기
-3. 느슨한 관계와 의존성 주입에 대한 관계에 대한 사례 만들기
-4. 스파게티 코드 리팩터링 하기
+### pages/Post.Detail.jsx
+ ```javascript
+  const { data: postDetailData } = useQuery([QUERY_KEY.post], () => getPostDetailPost());
+  const { data: commentData } = useQuery([QUERY_KEY.comments, params.get("page")], () => getPaginationComment(params));
+  const paginationCommentData = commentData?.Comments;
 ```
-
-### 진행방법
+### pages/Post.List.jsx
+ ```javascript
+  const { data: postData } = useQuery([QUERY_KEY.posts, params.get("page")], () => getPaginationPost(params));
+  const paginationPostData = postData?.Posts;
 ```
-1. 페어는 각자 함께 할 수 있는 시간을 선정합니다.
-2. 시간 선정이 완료되면 mobi 단톡방에 월~일요일 단위로 올려주세요.
-ex)
-  월 - 14:00~ 16:00
-  화 - 16:00~ 18:00
-  수 - 쉬는날
-  목 - 18:00~ 20:00
-  금 - 불금!
-  토,일 - 14:00 ~ 22:00
+### 💡리팩토링 내용
++ api와 관련된 로직은 api폴더에서 관리했습니다.
++ api 호출 함수(Post 로직)에 params 값을 전달하여 데이터를 호출하면 {PageNation:,Posts:} 형식으로 나오는데 이때 PageNation 값은 pagenation 폴더에서 Posts 값은 pages 폴더에서 사용했습니다.
++ api 호출 함수(Comment 로직)에 params 값을 전달하여 데이터를 호출하면 {PageNation:,Comments:} 형식으로 나오는데 이때 PageNation 값은 pagenation 폴더에서 Comments 값은 pages 폴더에서 사용했습니다.
+## 📌 state를 이용한 자주 사용하는 로직은 hooks로 관리
+### hooks/useDiaLog.jsx
+ ```javascript
+import { DialLogState, useDiaLogStore } from "../contexts/DialogProvider";
 
+const useDiaLog = () => {
+  const [, setDiaLogAttribute] = useDiaLogStore();
 
-2. 과제는 모두 페어와 함께 고민하여 문제를 풀이합니다.
-3. 풀이한 과제는 해당 레포지토리에 브랜치에 Pair-n으로 commit-push 합니다.
-4. 페어시간에는 항상 ZEP에 접속하여 문제를 풀이할 수 있도록 합니다.
+  // home page
+  const onPressNavigateBlog = () => {
+    setDiaLogAttribute({
+      type: DialLogState.ALERT,
+      text: "정말로 페이지를 이동하겠습니까",
+      isOpen: true,
+      onConfirm: async () => {
+        await setDiaLogAttribute({ isOpen: false });
+        window.location.href = "/posts";
+      },
+    });
+  };
+
+  // postList page
+  const onClickPost = async (postId) => {
+    await setDiaLogAttribute({
+      type: DialLogState.CONFIRM,
+      text: "정말로 페이지를 이동하겠습니까",
+      isOpen: true,
+      onConfirm: async () => {
+        await setDiaLogAttribute({
+          text: "정말로 이동해버린다요!",
+          onConfirm: async () => {
+            window.location.href = `/post-detail/${postId}`;
+          },
+        });
+      },
+      onCancel: () => {
+        setDiaLogAttribute({ isOpen: false });
+      },
+    });
+  };
+  return { onPressNavigateBlog, onClickPost };
+};
+
+export default useDiaLog;
 ```
+### hooks/useShowModal.jsx
+ ```javascript
+import { useState } from "react";
 
-### 주의사항
+const useShowModal = () => {
+  const [isOpenCommentList, setIsOpenCommentList] = useState(false);
+
+  const onClickMoreComments = async () => {
+    setIsOpenCommentList(true);
+  };
+
+  const onClickHiddenComments = () => {
+    setIsOpenCommentList(false);
+  };
+
+  return { isOpenCommentList, onClickMoreComments, onClickHiddenComments };
+};
+
+export default useShowModal;
 ```
-1. 결코 각자 문제를 풀이하여 나중에 비교하는 형태로하지 않고
-   함께 생각하고 고민하며 문제를 풀이해볼 것
+### 💡리팩토링 내용
++ context를 통해 dialog와 관련된 상태를 전역적으로 관리하고 있지만 이 상태를 사용하는 함수는 여러 파일에서 사용되고 있습니다.
++ 전역적으로 관리되고 있는 dialog와 관련된 상태를 사용하는 함수를 useDiaLog custom hook으로 만들어 필요할때 import 해서 사용할 수 있도록 추가했습니다.
++ 댓글창을 열고 닫을 수 있는 로직인 useShowModal은 해당 코드에서는 재사용되고 있지 않지만 단순히 모달창을 열고 닫는 로직은 자주 재사용될수 있다고 생각하여 custom hook으로 분리했습니다.
+## 📌 localStorage와 관련된 로직은 묶어서 관리
+### repository/userNameRepository.jsx
+ ```javascript
+const USER_NAME = "useName";
 
-2. 과제를 반드시 완성해야하는 것은 아닙니다.
-   그러나 여러분이 과제를 완성하지 못하면 저는 모비 2기라는 정해진 시간내에 
-   기획된 패스의 양을 점차 줄여나갈 것이며
-   여러분들에게서 의욕이 느껴지지 않는다면 저도 의욕적으로 패스를 준비할 수가 없습니다.
+export const userNameRepository = {
+  getUserName() {
+    return localStorage.getItem(USER_NAME);
+  },
 
-   제가 모비 2기에 최선을 다할 수 있도록
-   저에게 여러분들의 의욕을 보여주세요.
+  setUserName(userName) {
+    localStorage.setItem(USER_NAME, userName);
+  },
+};
 ```
+### 💡리팩토링 내용
++ localStorage를 통해 데이터 값을 가져오는 로직이나 localStorage에 있는 값을 변경하는 로직은 자주 재사용되므로 repository 폴더에서 하나의 객체로 관리했습니다.
+## 📌 private router에 관련된 로직은 util 함수로 관리
+### utils/privateRouter.jsx
+ ```javascript
+import { userNameRepository } from "../repository/userNameRepository";
 
-### 태크토크
-일정
+const privateRouter = () => {
+  const userName = userNameRepository.getUserName();
+  if (!userName) {
+    alert("로그인이 필요합니다");
+    window.location.href = "/";
+  }
+};
+
+export default privateRouter;
 ```
-12월 31일(일) 오후 14시
-WIL 시간과 동일
+### 💡리팩토링 내용
++ localStorage에 데이터가 없을때 홈페이지로 되돌아가는 private Router와 관련된 함수는 로그인 페이지가 아닌 모든 페이지에서 재사용되지만 state를 사용하고 있지 않기 때문에 utils 폴더에서 관리했습니다.
+## 📌 style은 한 곳에서 관리
+### pages/style.jsx
+ ```javascript
+import styled from "styled-components";
+
+const BlurBackGround = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
+`;
+
+const UserNameForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
+
+const Button = styled.button``;
+
+export const S = {
+  BlurBackGround,
+  UserNameForm,
+  Button,
+};
 ```
-
-대상자
-```javascript
-발표 대상은 매주 바뀌어요! 혼자 힘들면 페어와 함께 준비해도 괜찮습니다 :)
-억지로 발표 할 필요는 없어요. 
-
-너무 힘들다고 운영진한테 전달한다면 이번 주 테크 토크는 생략해도 됩니다!
-
-이번주 발표 대상자 -> Rin
-```
-
-추천주제
-```javascript
-아래의 주제는 추천 주제일 뿐입니다.
-
-본인이 배웠던 것들을 토대로 다른 분들에게 알려주고 싶은 것을
-약 10분간 이야기할 수 있는 것이면 됩니다
-
-이번주 추천 주제
-1. RHF 공식 문서 1부터 10까지 파해치기
-2. 자료구조 스택과 큐에 대하여, 자바스크립트에서 스택과 큐는 어떻게 사용되고 있을까?
-```
-
-
-
+### 💡리팩토링 내용
++ style 관련 로직을 page에서 componets에서 같이 사용하게 되면 코드가 길어지고 가독성이 떨어지므로 style 폴더를 만들어서 관리했습니다.
