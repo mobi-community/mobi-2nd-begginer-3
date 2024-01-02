@@ -132,3 +132,60 @@ Develop: 2023.12.24 ~ 2023.1.2
 ![image](https://github.com/mobi-community/mobi-2th-begginer-3/assets/95909862/44c66c59-da41-43f2-a717-97c3ea3643e8)
 
 ![image](https://github.com/mobi-community/mobi-2th-begginer-3/assets/95909862/585c1239-bc57-481c-a345-b8857ba93244)
+
+
+## 보일러 템플릿 
+
+```
+📦 
+└─ template
+   ├─ .eslintrc.js
+   ├─ .gitignore
+   ├─ .prettierrc.js
+   ├─ README.md
+   ├─ package-lock.json
+   ├─ package.json
+   ├─ public
+   │  ├─ favicon.ico
+   │  ├─ index.html
+   │  ├─ logo192.png
+   │  ├─ logo512.png
+   │  ├─ manifest.json
+   │  └─ robots.txt
+   └─ src
+      ├─ App.css
+      ├─ App.js
+      ├─ App.test.js
+      ├─ apis
+      │  └─ core.js
+      ├─ asset
+      │  └─ DeleteIcon.svg
+      ├─ components
+      │  └─ common
+      │     ├─ BasicButton.jsx
+      │     ├─ Box.jsx
+      │     └─ Space.jsx
+      ├─ consts
+      │  └─ query-key.jsx
+      ├─ hooks
+      │  ├─ useInputs.jsx
+      │  └─ useModal.jsx
+      ├─ index.css
+      ├─ index.js
+      ├─ layout
+      │  └─ index.jsx
+      ├─ logo.svg
+      ├─ pages
+      │  └─ index.jsx
+      ├─ reportWebVitals.js
+      ├─ router
+      │  └─ router.jsx
+      ├─ setupTests.js
+      ├─ styles
+      │  ├─ common.js
+      │  ├─ global.js
+      │  ├─ reset.js
+      │  └─ theme.js
+      └─ utils
+         └─ timeHelper.jsx
+```)
