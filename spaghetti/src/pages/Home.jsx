@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { DialLogState, useDiaLogStore } from "../contexts/DialogProvider";
-import UserNameRepository from "../repository/repository";
 import { useQuery } from "react-query";
 import { QUERY_KEY } from "../consts/queryKey";
-import { getWeatherApi } from "../apis/api";
+import { getWeather } from "../apis/api";
+import { userNameRepository } from "../repository/userNameRepository";
+import useDiaLog from "../hooks/useDiaLog";
+import { S } from "./style";
 
 const HomePage = () => {
   const [isBackGroundBlur, setIsBackGroundBlur] = useState(true);
-  const [, setDiaLogAttribute] = useDiaLogStore();
-
-  const { data: weatherData } = useQuery([QUERY_KEY.Weather], () =>
-    getWeatherApi()
-  );
+  const { data: weatherData } = useQuery([QUERY_KEY.weather], () => getWeather());
+  const { onPressNavigateBlog } = useDiaLog();
 
   useEffect(() => {
-    const userName = UserNameRepository.getUserName();
+    const userName = userNameRepository.getUserName();
     if (!userName) {
       return setIsBackGroundBlur(true);
     } else setIsBackGroundBlur(false);
@@ -25,21 +22,9 @@ const HomePage = () => {
     e.preventDefault();
     const userName = e.target.userName.value.trim();
     if (!userName) return alert("이름을 입력해주세요");
-    UserNameRepository.setUserName(userName);
+    userNameRepository.setUserName(userName);
     setIsBackGroundBlur(false);
     e.target.userName.value = "";
-  };
-
-  const onPressNavigateBlog = () => {
-    setDiaLogAttribute({
-      type: DialLogState.ALERT,
-      text: "정말로 페이지를 이동하겠습니까",
-      isOpen: true,
-      onConfirm: async () => {
-        await setDiaLogAttribute({ isOpen: false });
-        window.location.href = "/posts";
-      },
-    });
   };
 
   return (
@@ -62,27 +47,3 @@ const HomePage = () => {
   );
 };
 export default HomePage;
-
-const BlurBackGround = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  z-index: 9999;
-  backdrop-filter: blur(10px);
-`;
-
-const UserNameForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-`;
-
-const Button = styled.button``;
-
-const S = {
-  BlurBackGround,
-  UserNameForm,
-  Button,
-};

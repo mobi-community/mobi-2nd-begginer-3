@@ -1,34 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CommentPageNation from "../components/pagenation/Pagenation.Comment";
 import { useSearchParams } from "react-router-dom";
-import UserNameRepository from "../repository/repository";
 import { useQuery } from "react-query";
 import { QUERY_KEY } from "../consts/queryKey";
-import { getCommentsApi, getPostDetailApi } from "../apis/api";
-import { LIMIT_TAKE } from "../consts/const";
+import { getPaginationComment, getPostDetailPost } from "../apis/api";
+import useShowModal from "../hooks/useShowModal";
+import privateRouter from "../utils/privateRouter";
 
 const PostDetailPage = () => {
   const [params] = useSearchParams();
-  const [isOpenCommentList, setIsOpenCommentList] = useState(false);
-
-  const { data: postData } = useQuery([QUERY_KEY.PostDetail], () =>
-    getPostDetailApi()
-  );
-
-  const { data: commentsData } = useQuery([QUERY_KEY.Comment], () =>
-    getCommentsApi(params, LIMIT_TAKE.TWENTY)
-  );
-
-  const onClickCommentsBtn = async () => {
-    setIsOpenCommentList((prev) => !prev);
-  };
+  const { isOpenCommentList, onClickCommentsBtn } = useShowModal();
+  const { data: postDetailData } = useQuery([QUERY_KEY.post], () => getPostDetailPost());
+  const { data: commentData } = useQuery([QUERY_KEY.comments, params.get("page")], () => getPaginationComment(params));
+  const paginationCommentData = commentData?.Comments;
 
   useEffect(() => {
-    const userName = UserNameRepository.getUserName();
-    if (!userName) {
-      alert("로그인이 필요합니다");
-      window.location.href = "/";
-    }
+    privateRouter();
   }, []);
 
   useEffect(() => {
@@ -39,16 +26,12 @@ const PostDetailPage = () => {
     <div>
       <h1>Post Detail Page</h1>
       <div>
-        <p>제목: {postData?.title}</p>
-        <p>내용: {postData?.content}</p>
-        {!isOpenCommentList ? (
-          <button onClick={onClickCommentsBtn}>댓글 보기</button>
-        ) : (
-          <button onClick={onClickCommentsBtn}>댓글 숨기기</button>
-        )}
+        <p>제목: {postDetailData?.title}</p>
+        <p>내용: {postDetailData?.content}</p>
+        <button onClick={onClickCommentsBtn}>{isOpenCommentList ? "댓글 숨기기" : "댓글 보기"}</button>
         {isOpenCommentList && (
           <>
-            {commentsData?.Comments.map((comment) => (
+            {paginationCommentData?.map((comment) => (
               <div key={comment.id}>
                 <p>{comment.content}</p>
                 <p>{comment.User.nickName}</p>

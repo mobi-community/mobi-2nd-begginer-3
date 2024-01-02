@@ -1,56 +1,35 @@
 import axios from "axios";
 import { weatherConfig } from "../third-party/weather.config";
+import { LIMIT_PAGE, LIMIT_TAKE } from "../consts/pageNation";
 
-export const getPostDetailApi = async () => {
+export const getPostDetailPost = async () => {
   const response = await axios.get("/api/post");
   return response.data;
 };
 
-export const getCommentsApi = async (params, limit) => {
-  const response = await axios.get("/api/comments", {
-    params: {
-      take: params.get("take") ?? limit,
-    },
-  });
-  return response.data;
-};
-
-export const getPostListApi = async (params, limit) => {
+export const getPaginationPost = async (params) => {
   const response = await axios.get("/api/posts", {
     params: {
-      take: params.get("take") ?? limit,
+      page: params.get("page") ?? 1,
+      take: params.get("take") ?? LIMIT_TAKE,
+      limit: params.get("limit") ?? LIMIT_PAGE,
     },
   });
   return response.data;
 };
 
-export const getPagenationCommentList = async (
-  params,
-  limit_take,
-  limit_page
-) => {
+export const getPaginationComment = async (params) => {
   const response = await axios.get("/api/comments", {
     params: {
       page: params.get("page") ?? 1,
-      take: params.get("take") ?? limit_take,
-      limit: params.get("limit") ?? limit_page,
+      take: params.get("take") ?? LIMIT_TAKE,
+      limit: params.get("limit") ?? LIMIT_PAGE,
     },
   });
   return response.data;
 };
 
-// export const getPagenationPostList = async () => {
-//   const response = await axios.get("/api/posts", {
-//     params: {
-//       page: params.get("page") ?? 1,
-//       take: params.get("take") ?? LIMIT_TAKE,
-//       limit: params.get("limit") ?? LIMIT_PAGE,
-//     },
-//   });
-//   return response.data;
-// };
-
-export const getWeatherApi = async () => {
+export const getWeather = async () => {
   try {
     const response = await axios.get("/getUltraSrtNcst", {
       baseURL: weatherConfig.api,

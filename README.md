@@ -1,4 +1,5 @@
 # 💻 Spaghetti Code Refactor
+---
 
 ## 📌 router 분리
 ### router/router.jsx
@@ -171,15 +172,11 @@ import { useState } from "react";
 const useShowModal = () => {
   const [isOpenCommentList, setIsOpenCommentList] = useState(false);
 
-  const onClickMoreComments = async () => {
-    setIsOpenCommentList(true);
+  const onClickCommentsBtn = async () => {
+    setIsOpenCommentList((prev) => !prev);
   };
 
-  const onClickHiddenComments = () => {
-    setIsOpenCommentList(false);
-  };
-
-  return { isOpenCommentList, onClickMoreComments, onClickHiddenComments };
+  return { isOpenCommentList, onClickCommentsBtn };
 };
 
 export default useShowModal;
@@ -252,4 +249,7 @@ export const S = {
 };
 ```
 ### 💡리팩토링 내용
-+ style 관련 로직을 page에서 componets에서 같이 사용하게 되면 코드가 길어지고 가독성이 떨어지므로 style 폴더를 만들어서 관리했습니다.
++ style 관련 로직을 page에서 components에서 같이 사용하게 되면 코드가 길어지고 가독성이 떨어지므로 style 폴더를 만들어서 관리했습니다.
+
+
+
