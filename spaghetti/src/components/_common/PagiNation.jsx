@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
-import { LIMIT } from "../../consts/Const";
+import { LIMIT } from "../../constants/Constant";
+import { useEffect } from "react";
 
 const PagiNation = ({ axiosInfo }) => {
   const [params, setParams] = useSearchParams();
@@ -14,6 +15,7 @@ const PagiNation = ({ axiosInfo }) => {
   };
 
   const isPrevPageVisible = pageNation?.startPage !== 1;
+
   const isNextPageVisible =
     Math.ceil(pageNation?.currentPage / LIMIT.PAGE) !==
     Math.ceil(pageNation?.totalPage / LIMIT.PAGE);

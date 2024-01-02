@@ -1,39 +1,12 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import useDialog from "../hooks/useDialog";
-import StorageHandler from "../repository/StorageHandler";
 import Temperature from "../components/Home/Temperature";
 
 const HomePage = () => {
-  const [isBackGroundBlur, setIsBackGroundBlur] = useState(true);
   const { onPressNavigateBlog } = useDialog();
-
-  useEffect(() => {
-    const userName = StorageHandler.getLocalStorage("userName");
-    if (!userName) {
-      return setIsBackGroundBlur(true);
-    } else setIsBackGroundBlur(false);
-  }, []);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const userName = e.target.userName.value.trim();
-    if (!userName) return alert("이름을 입력해주세요");
-    StorageHandler.setLocalStorage("userName", userName);
-    setIsBackGroundBlur(false);
-    e.target.userName.value = "";
-  };
 
   return (
     <>
-      {isBackGroundBlur && (
-        <S.BlurBackGround>
-          <S.UserNameForm onSubmit={onSubmit}>
-            <input type="text" name="userName" placeholder="Enter your name" />
-            <button type="submit">Submit</button>
-          </S.UserNameForm>
-        </S.BlurBackGround>
-      )}
       <div>
         <h1>Home Page</h1>
         <Temperature />

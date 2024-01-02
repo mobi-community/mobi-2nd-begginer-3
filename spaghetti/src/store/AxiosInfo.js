@@ -1,8 +1,9 @@
 import { weatherConfig } from "../third-party/weather.config";
-import { LIMIT } from "../consts/Const";
+import { HTTP_METHOD, LIMIT, ROUTES } from "../constants/Constant";
 
+//날씨 정보를 불러오는 api 정보
 export const weatherAxiosInfo = {
-  url: `${weatherConfig.api}/getUltraSrtNcst`,
+  url: ROUTES.WEATHER_API,
   params: {
     serviceKey: weatherConfig.secret_key,
     dataType: "JSON",
@@ -11,51 +12,54 @@ export const weatherAxiosInfo = {
     nx: 60,
     ny: 127,
   },
-  method: "get",
+  method: HTTP_METHOD.GET,
 };
 
 const { base_date, ...paramsWithoutBaseDate } = weatherAxiosInfo.params;
 
-// 새로운 axiosInfo 생성
 export const weatherAxiosInfoWithoutBaseDate = {
   ...weatherAxiosInfo,
   params: paramsWithoutBaseDate,
 };
 
+//포스트 정보를 불러오는 api 정보
 export const postAxiosInfo = {
-  url: "/api/post",
+  url: ROUTES.API_URL("post"),
   params: "",
-  method: "get",
+  method: HTTP_METHOD.GET,
 };
 
+// 댓글 정보를 불러오는 api
 export const commentsAxiosInfo = (params) => {
   return {
-    url: "/api/comments",
+    url: ROUTES.API_URL("commnets"),
     params: {
       take: params.get("take") ?? LIMIT.TAKE,
     },
-    method: "get",
+    method: HTTP_METHOD.GET,
   };
 };
 
+//포스트 리스트 정보를 불러오는 api 정보
 export const postListAxiosInfo = (params) => {
   return {
-    url: "/api/posts",
+    url: ROUTES.API_URL("posts"),
     params: {
       take: params.get("take") ?? LIMIT.TAKE,
     },
-    method: "get",
+    method: HTTP_METHOD.GET,
   };
 };
 
+//페이지네이션 정보를 불러오는 api 정보
 export const paginationAxiosInfo = ({ params, endPoint }) => {
   return {
-    url: `/api/${endPoint}`,
+    url: ROUTES.API_URL(endPoint),
     params: {
       page: params.get("page") ?? 1,
       take: params.get("take") ?? LIMIT.TAKE,
       limit: params.get("limit") ?? LIMIT.PAGE,
     },
-    method: "get",
+    method: HTTP_METHOD.GET,
   };
 };

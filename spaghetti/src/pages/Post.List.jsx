@@ -1,10 +1,8 @@
-import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 import { paginationAxiosInfo, postListAxiosInfo } from "../store/AxiosInfo";
 import PagiNation from "../components/_common/Pagination";
 import useDialog from "../hooks/useDialog";
-import StorageHandler from "../repository/StorageHandler";
 
 const PostListPage = () => {
   const [params] = useSearchParams();
@@ -12,14 +10,6 @@ const PostListPage = () => {
 
   const { data: postData } = useAxios([postListAxiosInfo(params), params]);
   const postList = postData?.Posts;
-
-  useEffect(() => {
-    const userName = StorageHandler.getLocalStorage("userName");
-    if (!userName) {
-      alert("로그인이 필요합니다");
-      window.location.href = "/";
-    }
-  }, []);
 
   return (
     <table>

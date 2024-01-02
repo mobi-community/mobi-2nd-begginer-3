@@ -1,7 +1,10 @@
 import useAxios from "../../hooks/useAxios";
 import { commentsAxiosInfo, paginationAxiosInfo } from "../../store/AxiosInfo";
+import { useSearchParams } from "react-router-dom";
+import PagiNation from "../_common/Pagination";
 
 const Comment = () => {
+  const [params] = useSearchParams();
   const { data: commentData } = useAxios([commentsAxiosInfo(params), params]);
   const commentList = commentData?.Comments;
 

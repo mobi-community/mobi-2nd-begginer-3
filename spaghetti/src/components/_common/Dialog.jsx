@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import React from "react";
-import { DialLogState } from "../../contexts/DialogProvider";
+import { DIALOG_STATE } from "../../constants/Constant";
 
 const Dialog = React.forwardRef(
   ({ type, text, onConfirm, onCancel, onClose, position }, ref) => {
@@ -9,7 +9,7 @@ const Dialog = React.forwardRef(
         <button onClick={onClose}>x</button>
         {text}
         <S.Button onClick={onConfirm}>확인</S.Button>
-        {type === DialLogState.CONFIRM && (
+        {type === DIALOG_STATE.CONFIRM && (
           <S.Button onClick={onCancel}>취소</S.Button>
         )}
       </S.Wrapper>
@@ -17,6 +17,7 @@ const Dialog = React.forwardRef(
   }
 );
 Dialog.displayName = "dialog";
+
 export default Dialog;
 
 const Wrapper = styled.dialog`

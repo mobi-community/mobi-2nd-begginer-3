@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { weatherAxiosInfoWithoutBaseDate } from "../store/AxiosInfo";
 
-const useAxios = ([axiosInfo, rerender]) => {
+const useAxios = ([axiosInfo, rerenderArr]) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,7 +26,7 @@ const useAxios = ([axiosInfo, rerender]) => {
       await fetchData();
     };
     fetchDataAsync();
-  }, [rerender]); // axiosInfo를 의존성 배열에 추가
+  }, [rerenderArr]);
 
   return { data, error, isLoading };
 };

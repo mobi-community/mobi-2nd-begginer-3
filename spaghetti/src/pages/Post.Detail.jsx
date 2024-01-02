@@ -2,29 +2,16 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 import { postAxiosInfo } from "../store/AxiosInfo";
-import StorageHandler from "../repository/StorageHandler";
+import Comment from "../components/Detail/Comment";
 
 const PostDetailPage = () => {
   const [params] = useSearchParams();
   const [isOpenCommentList, setIsOpenCommentList] = useState(false);
   const { data: postDetail } = useAxios([postAxiosInfo, params]);
 
-  const onClickMoreComments = async () => {
-    setIsOpenCommentList(true);
+  const onClickShowComments = () => {
+    setIsOpenCommentList((prev) => !prev);
   };
-
-  const onClickHiddenComments = () => {
-    setIsOpenCommentList(false);
-  };
-
-  useEffect(() => {
-    const userName = StorageHandler.getLocalStorage("userName");
-    if (!userName) {
-      alert("로그인이 필요합니다");
-      window.location.href = "/";
-    }
-  }, []);
-
   useEffect(() => {
     if (!isOpenCommentList) return;
   }, [params]);
@@ -36,8 +23,8 @@ const PostDetailPage = () => {
         <p>제목: {postDetail?.title}</p>
         <p>내용: {postDetail?.content}</p>
 
-        <button onClick={onClickMoreComments}>댓글 보기</button>
-        <button onClick={onClickHiddenComments}>댓글 숨기기</button>
+        <button onClick={onClickShowComments}>댓글 보기</button>
+        <button onClick={onClickShowComments}>댓글 숨기기</button>
         {isOpenCommentList && <Comment />}
       </div>
     </div>

@@ -4,7 +4,7 @@ const StorageHandler = {
   },
 
   getLocalStorage(key) {
-    localStorage.getItem(key);
+    return localStorage.getItem(key);
   },
 };
 
