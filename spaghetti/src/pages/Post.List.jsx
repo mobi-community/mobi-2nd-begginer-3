@@ -1,15 +1,28 @@
 import { useSearchParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
-import { paginationAxiosInfo, postListAxiosInfo } from "../store/AxiosInfo";
-import PagiNation from "../components/_common/Pagination";
 import useDialog from "../hooks/useDialog";
+import postAPI from "../apis/post.api";
+import { LIMIT } from "../constants/Constant";
+import PagiNation from "../components/_common/Pagination";
 
 const PostListPage = () => {
   const [params] = useSearchParams();
   const { onClickPost } = useDialog();
 
-  const { data: postData } = useAxios([postListAxiosInfo(params), params]);
+  const postParam = {
+    take: params.get("take") ?? LIMIT.TAKE,
+    page: params.get("page") ?? 1,
+    limit: params.get("limit") ?? LIMIT.PAGE,
+  };
+
+  //포스트 리스트 정보를 불러오는 api
+  const { data: postData } = useAxios([
+    postAPI.getPost({ params: postParam, endPoint: "posts" }),
+    params,
+  ]);
+
   const postList = postData?.Posts;
+  const pagination = postData?.PageNation;
 
   return (
     <table>
@@ -29,9 +42,7 @@ const PostListPage = () => {
           </tr>
         );
       })}
-      <PagiNation
-        axiosInfo={paginationAxiosInfo({ params: params, endPoint: "posts" })}
-      />
+      {pagination && <PagiNation pagination={pagination} />}
     </table>
   );
 };

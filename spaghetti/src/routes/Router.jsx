@@ -14,13 +14,13 @@ const router = createBrowserRouter([
         path: ROUTES.HOME,
         element: <HomePage />,
       },
-      {
-        element: <PrivateRouter />,
-        children: [
-          { path: ROUTES.POST, element: <PostListPage /> },
-          { path: ROUTES.POST_DETAIL, element: <PostDetailPage /> },
-        ],
-      },
+    ],
+  },
+  {
+    element: <PrivateRouter />,
+    children: [
+      { path: ROUTES.POST, element: <PostListPage /> },
+      { path: ROUTES.POST_DETAIL, element: <PostDetailPage /> },
     ],
   },
 ]);

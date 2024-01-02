@@ -1,12 +1,9 @@
 import { useSearchParams } from "react-router-dom";
-import useAxios from "../../hooks/useAxios";
 import { LIMIT } from "../../constants/Constant";
-import { useEffect } from "react";
 
-const PagiNation = ({ axiosInfo }) => {
+const PagiNation = ({ pagination }) => {
   const [params, setParams] = useSearchParams();
-  const { data } = useAxios([axiosInfo, params]);
-  const pageNation = data?.PageNation;
+  const { startPage, endPage, currentPage, totalPage } = pagination;
 
   const onClickPage = (page) => {
     setParams({
@@ -14,17 +11,16 @@ const PagiNation = ({ axiosInfo }) => {
     });
   };
 
-  const isPrevPageVisible = pageNation?.startPage !== 1;
+  const isPrevPageVisible = startPage !== 1;
 
   const isNextPageVisible =
-    Math.ceil(pageNation?.currentPage / LIMIT.PAGE) !==
-    Math.ceil(pageNation?.totalPage / LIMIT.PAGE);
+    Math.ceil(currentPage / LIMIT.PAGE) !== Math.ceil(totalPage / LIMIT.PAGE);
 
   const Buttons =
-    pageNation &&
-    Array(pageNation.endPage - pageNation.startPage + 1)
+    pagination &&
+    Array(endPage - startPage + 1)
       .fill()
-      .map((_, i) => pageNation.startPage + i)
+      .map((_, i) => startPage + i)
       .map((page) => (
         <button key={page} onClick={() => onClickPage(page)}>
           {page}
@@ -34,15 +30,11 @@ const PagiNation = ({ axiosInfo }) => {
   return (
     <div>
       {isPrevPageVisible && (
-        <button onClick={() => setParams({ page: pageNation.startPage - 1 })}>
-          이전
-        </button>
+        <button onClick={() => setParams({ page: startPage - 1 })}>이전</button>
       )}
-      {pageNation && Buttons}
+      {pagination && Buttons}
       {isNextPageVisible && (
-        <button onClick={() => setParams({ page: pageNation.endPage + 1 })}>
-          다음
-        </button>
+        <button onClick={() => setParams({ page: endPage + 1 })}>다음</button>
       )}
     </div>
   );

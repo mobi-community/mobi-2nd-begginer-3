@@ -1,14 +1,24 @@
 import useAxios from "../../hooks/useAxios";
-import { commentsAxiosInfo, paginationAxiosInfo } from "../../store/AxiosInfo";
 import { useSearchParams } from "react-router-dom";
 import PagiNation from "../_common/Pagination";
+import { LIMIT } from "../../constants/Constant";
+import postAPI from "../../apis/post.api";
 
 const Comment = () => {
   const [params] = useSearchParams();
-  const { data: commentData } = useAxios([commentsAxiosInfo(params), params]);
-  const commentList = commentData?.Comments;
 
-  console.log("commentList", commentData);
+  const commentParams = {
+    take: params.get("take") ?? LIMIT.TAKE,
+    page: params.get("page") ?? 1,
+    limit: params.get("limit") ?? LIMIT.PAGE,
+  };
+
+  const { data: commentData } = useAxios([
+    postAPI.getPost({ params: commentParams, endPoint: "comments" }),
+    params,
+  ]);
+  const commentList = commentData?.Comments;
+  const pagination = commentData?.PageNation;
 
   return (
     <>
@@ -21,12 +31,7 @@ const Comment = () => {
           </div>
         );
       })}
-      <PagiNation
-        axiosInfo={paginationAxiosInfo({
-          params: params,
-          endPoint: "comments",
-        })}
-      />
+      {pagination && <PagiNation pagination={pagination} />}
     </>
   );
 };

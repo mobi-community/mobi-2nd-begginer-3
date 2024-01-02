@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
-import { postAxiosInfo } from "../store/AxiosInfo";
 import Comment from "../components/Detail/Comment";
+import postAPI from "../apis/post.api";
 
 const PostDetailPage = () => {
   const [params] = useSearchParams();
   const [isOpenCommentList, setIsOpenCommentList] = useState(false);
-  const { data: postDetail } = useAxios([postAxiosInfo, params]);
+
+  //포스트 정보를 불러오는 api 정보
+  const { data: postDetail } = useAxios([
+    postAPI.getPost({ endPoint: "post" }),
+    params,
+  ]);
 
   const onClickShowComments = () => {
     setIsOpenCommentList((prev) => !prev);
   };
+
   useEffect(() => {
     if (!isOpenCommentList) return;
   }, [params]);
-
   return (
     <div>
       <h1>Post Detail Page</h1>

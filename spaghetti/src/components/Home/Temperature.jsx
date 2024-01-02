@@ -1,14 +1,27 @@
 import useAxios from "../../hooks/useAxios";
-import {
-  weatherAxiosInfo,
-  weatherAxiosInfoWithoutBaseDate,
-} from "../../store/AxiosInfo";
+import { weatherAPI } from "../../apis/weather.api";
+import { weatherConfig } from "../../third-party/weather.config";
 
 const Temperature = () => {
+  const params = {
+    serviceKey: weatherConfig.secret_key,
+    dataType: "JSON",
+    base_date: new Date().toISOString().substring(0, 10).replace(/-/g, ""),
+    nx: 60,
+    ny: 127,
+  };
+
+  const paramsWithBaseTime = {
+    ...params,
+    base_time: "0600",
+  };
+
   const { data } = useAxios([
-    weatherAxiosInfo,
-    weatherAxiosInfoWithoutBaseDate,
+    weatherAPI.getWeather(params),
+    paramsWithBaseTime,
   ]);
+
+  console.log("data", data);
 
   const weather = data?.response?.body?.items?.item;
 

@@ -10,7 +10,6 @@ const useAxios = ([axiosInfo, rerenderArr]) => {
     await axios
       .request(axiosInfo)
       .then((res) => {
-        console.log(res.data);
         setData(res?.data);
       })
       .catch((err) => {
