@@ -1,39 +1,34 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import NRInput from "../components/Input";
 import { useSearchParams } from "react-router-dom";
 import { totalSchema } from "../utils/schema";
-import { REQUIREMENTS } from "../constants/Requirements";
-import NRTextarea from "../components/TextArea";
+import REQUIREMENTS from "../constants/Requirements";
+import NRInput from "../components/AuthPage/Input";
+import { makeObjKeysToArr } from "../utils/formatter";
+import NRButton from "../components/AuthPage/Button";
 
 const AuthPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentStep = Number(searchParams.get("step")) || 0;
-
-  const LAST_STEP = 3;
+  const currentStep = Number(searchParams.get("step")) || 1;
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, defaultValues },
+    formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
-    resolver: yupResolver(totalSchema[currentStep]),
+    resolver: yupResolver(totalSchema[currentStep - 1]),
   });
+
+  const LAST_STEP = totalSchema.length;
 
   //제출 함수
   const onSubmit = (data) => {
-    const keys = Object.keys(data);
-    const info = keys
-      .map((key) => {
-        return `${key} : ${data[key]}`;
-      })
-      .join("\n");
-    console.log(info);
-    alert(info);
+    const submitInfo = makeObjKeysToArr(data);
+    alert(submitInfo);
   };
 
-  //다음 스텝
+  //다음 버튼 함수
   const onClickNextStep = () => {
     const nextStep = currentStep + 1;
     searchParams.set("step", nextStep);
@@ -47,40 +42,35 @@ const AuthPage = () => {
           회원가입
         </div>
         <div className="relative shadow-lg border rounded-tr-lg rounded-br-lg rounded-bl-lg h-[400px] gap-10 flex flex-col pt-[70px]">
+          {/*폼의 인풋*/}
           {REQUIREMENTS.map((item) => {
-            return item.input ? (
+            const isShow = item.step === currentStep;
+            const { label, name, isInput } = item;
+            return (
               <NRInput
+                label={label}
+                name={name}
+                isShow={isShow}
                 register={register}
-                item={item}
                 errors={errors}
-                isShow={currentStep === item.step}
-              />
-            ) : (
-              <NRTextarea
-                register={register}
-                item={item}
-                errors={errors}
-                isShow={currentStep === item.step}
+                isInput={isInput}
               />
             );
           })}
+          {/*폼의 버튼*/}
           <div className="col-span-3 flex justify-center h-[20px] mt-[20px] absolute bottom-[100px] left-[190px]">
-            {currentStep < LAST_STEP - 1 ? (
-              <button
-                disabled={!isValid}
+            {currentStep < LAST_STEP ? (
+              <NRButton
                 onClick={onClickNextStep}
-                className="pr-0 mt-[30px] border-2 flex justify-center rounded-lg items-center text-lg text-white font-extrabold bg-dark_mint w-[120px] h-[40px] disabled:opacity-50"
-              >
-                다음
-              </button>
+                disabled={!isValid}
+                children={"다음"}
+              />
             ) : (
-              <button
+              <NRButton
                 onClick={handleSubmit(onSubmit)}
                 disabled={!isValid}
-                className="pr-0 mt-[30px] border-2 flex justify-center rounded-lg items-center text-lg text-white font-extrabold bg-dark_mint w-[120px] h-[40px] disabled:opacity-50"
-              >
-                제출
-              </button>
+                children={"제출"}
+              />
             )}
           </div>
         </div>

@@ -28,8 +28,9 @@ export const schema2 = yup.object().shape({
 export const schema3 = yup.object().shape({
   sayWords: yup
     .string()
-    .min(100, MESSAGE.SAY_WORDS.min)
-    .max(300, MESSAGE.SAY_WORDS.max),
+    .min(10, MESSAGE.SAY_WORDS.min)
+    .max(300, MESSAGE.SAY_WORDS.max)
+    .required("하고싶은 말을 입력해 주세요."),
 });
 
 export const totalSchema = [schema1, schema2, schema3];
