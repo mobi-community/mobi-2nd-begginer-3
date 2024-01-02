@@ -1,12 +1,31 @@
 import useAxios from "../../hooks/useAxios";
-import { commentsAxiosInfo, paginationAxiosInfo } from "../../store/AxiosInfo";
 import { useSearchParams } from "react-router-dom";
 import PagiNation from "../_common/Pagination";
+import { postAPI } from "../../apis/post.api";
+import { LIMIT } from "../../constants/Constant";
 
 const Comment = () => {
   const [params] = useSearchParams();
-  const { data: commentData } = useAxios([commentsAxiosInfo(params), params]);
+
+  const commentParam = {
+    take: params.get("take") ?? LIMIT.TAKE,
+  };
+  const { data: commentData } = useAxios([
+    postAPI.getPost(commentParam, "commnets"),
+    params,
+  ]);
   const commentList = commentData?.Comments;
+
+  // 댓글 정보를 불러오는 api
+  // const commentsAxiosInfo = (params) => {
+  //   return {
+  //     url: ROUTES.API_URL("commnets"),
+  //     params: {
+  //       ,
+  //     },
+  //     method: HTTP_METHOD.GET,
+  //   };
+  // };
 
   return (
     <>
@@ -19,12 +38,7 @@ const Comment = () => {
           </div>
         );
       })}
-      <PagiNation
-        axiosInfo={paginationAxiosInfo({
-          params: params,
-          endPoint: "comments",
-        })}
-      />
+      <PagiNation endPoint={"commnets"} />
     </>
   );
 };
