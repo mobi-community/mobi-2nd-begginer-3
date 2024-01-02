@@ -9,7 +9,7 @@ const HomePage = () => {
   const onPressNavigateBlog = () => {
     setKeepPrevDialogAttribute({
       type: DialogConfig.ALERT,
-      text: "정말로 페이지를 이동하겠습니까",
+      text: "정말로 페이지를 이동하겠습니까?",
       isOpen: true,
       endPoint: "/posts",
     });
