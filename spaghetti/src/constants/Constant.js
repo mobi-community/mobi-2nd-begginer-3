@@ -12,7 +12,9 @@ export const DIALOG_STATE = {
 
 export const ROUTES = {
   HOME: "/",
-  POST: "/posts",
+  POST: "/post",
+  POSTS: "/posts",
+  COMMENTS: "/comments",
   POST_DETAIL: "/post-detail/:postId",
   WEATHER_API: `${weatherConfig.api}/getUltraSrtNcst`,
   MOVE_POST_DETAIL: (postId) => `/post-detail/${postId}`,

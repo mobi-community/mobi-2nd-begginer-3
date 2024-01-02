@@ -3,7 +3,6 @@ import { useSearchParams } from "react-router-dom";
 const PagiNation = ({ pagination, limitPage }) => {
   const [_, setParams] = useSearchParams();
   const { startPage, totalPage, endPage, currentPage } = pagination;
-
   const onClickPage = (page) => {
     setParams({
       page,
