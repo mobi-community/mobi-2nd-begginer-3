@@ -15,8 +15,10 @@ const AuthPage = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    getValues,
   } = useForm({
     mode: "onChange",
+    defaultValues: JSON.parse(localStorage.getItem("formInfo")),
     resolver: yupResolver(totalSchema[currentStep - 1]),
   });
 
@@ -25,7 +27,16 @@ const AuthPage = () => {
   //제출 함수
   const onSubmit = (data) => {
     const submitInfo = makeObjKeysToArr(data);
+    saveData();
     alert(submitInfo);
+  };
+
+  //이전 버튼 함수
+  const onClickPrevStep = () => {
+    const prevStep = currentStep - 1;
+    searchParams.set("step", prevStep);
+    setSearchParams(searchParams);
+    saveData();
   };
 
   //다음 버튼 함수
@@ -33,6 +44,12 @@ const AuthPage = () => {
     const nextStep = currentStep + 1;
     searchParams.set("step", nextStep);
     setSearchParams(searchParams);
+    saveData();
+  };
+
+  //로컬 스토리지에 저장하는 함수
+  const saveData = () => {
+    localStorage.setItem(`formInfo`, JSON.stringify(getValues()));
   };
 
   return (
@@ -57,8 +74,12 @@ const AuthPage = () => {
               />
             );
           })}
+
           {/*폼의 버튼*/}
-          <div className="col-span-3 flex justify-center h-[20px] mt-[20px] absolute bottom-[100px] left-[190px]">
+          <div className="flex items-center justify-center">
+            {currentStep !== 1 && (
+              <NRButton onClick={onClickPrevStep} children={"이전"} />
+            )}
             {currentStep < LAST_STEP ? (
               <NRButton
                 onClick={onClickNextStep}
