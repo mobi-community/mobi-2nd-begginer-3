@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import useDialog from "../hooks/useDialog";
 import Temperature from "../components/Home/Temperature";
-import { weatherInstance } from "../apis/_common";
 import { HTTP_METHOD } from "../constants/Constant";
 import { weatherConfig } from "../third-party/weather.config";
 import useAxios from "../hooks/useAxios";
+import { weatherInstance } from "../apis/_common";
 
 const HomePage = () => {
   const { onPressNavigateBlog } = useDialog();
@@ -15,11 +15,6 @@ const HomePage = () => {
     base_date: new Date().toISOString().substring(0, 10).replace(/-/g, ""),
     nx: 60,
     ny: 127,
-  };
-
-  const paramsWithBaseTime = {
-    ...params,
-    base_time: "0600",
   };
 
   const { data, isLoading } = useAxios({
